@@ -174,6 +174,7 @@ export class SubscriptionsService extends BaseService {
       console.log("Stripe Session:", session);
   
       await this.subscriptionRepo.findByIdAndUpdate(subscription._id, {
+        stripe_checkout_session_id: session.id,
         curr_price_id: priceId,
       });
   
