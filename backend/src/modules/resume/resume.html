@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>classic Template</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @font-face {
+        font-family: "Satoshi";
+        src: url("./fonts/Satoshi-Variable.woff2") format("woff2"),
+          url("./fonts/Satoshi-Variable.woff") format("woff"),
+          url("./fonts/Satoshi-Variable.ttf") format("truetype");
+        font-weight: 300 900;
+        font-display: swap;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Satoshi";
+        src: url("./fonts/Satoshi-VariableItalic.woff2") format("woff2"),
+          url("./fonts/Satoshi-VariableItalic.woff") format("woff"),
+          url("./fonts/Satoshi-VariableItalic.ttf") format("truetype");
+        font-weight: 300 900;
+        font-display: swap;
+        font-style: italic;
+      }
+
+      @font-face {
+        font-family: "Satoshi";
+        src: url("./fonts/Satoshi-Light.woff2") format("woff2"),
+          url("./fonts/Satoshi-Light.woff") format("woff"),
+          url("./fonts/Satoshi-Light.ttf") format("truetype");
+        font-weight: 300;
+        font-display: swap;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Satoshi";
+        src: url("./fonts/Satoshi-LightItalic.woff2") format("woff2"),
+          url("./fonts/Satoshi-LightItalic.woff") format("woff"),
+          url("./fonts/Satoshi-LightItalic.ttf") format("truetype");
+        font-weight: 300;
+        font-display: swap;
+        font-style: italic;
+      }
+
+      @font-face {
+        font-family: "Satoshi";
+        src: url("./fonts/Satoshi-Regular.woff2") format("woff2"),
+          url("./fonts/Satoshi-Regular.woff") format("woff"),
+          url("./fonts/Satoshi-Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-display: swap;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Satoshi";
+        src: url("./fonts/Satoshi-Italic.woff2") format("woff2"),
+          url("./fonts/Satoshi-Italic.woff") format("woff"),
+          url("./fonts/Satoshi-Italic.ttf") format("truetype");
+        font-weight: 400;
+        font-display: swap;
+        font-style: italic;
+      }
+
+      @font-face {
+        font-family: "Satoshi";
+        src: url("./fonts/Satoshi-Medium.woff2") format("woff2"),
+          url("./fonts/Satoshi-Medium.woff") format("woff"),
+          url("./fonts/Satoshi-Medium.ttf") format("truetype");
+        font-weight: 500;
+        font-display: swap;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Satoshi";
+        src: url("./fonts/Satoshi-MediumItalic.woff2") format("woff2"),
+          url("./fonts/Satoshi-MediumItalic.woff") format("woff"),
+          url("./fonts/Satoshi-MediumItalic.ttf") format("truetype");
+        font-weight: 500;
+        font-display: swap;
+        font-style: italic;
+      }
+
+      @font-face {
+        font-family: "Satoshi";
+        src: url("./fonts/Satoshi-Bold.woff2") format("woff2"),
+          url("./fonts/Satoshi-Bold.woff") format("woff"),
+          url("./fonts/Satoshi-Bold.ttf") format("truetype");
+        font-weight: 700;
+        font-display: swap;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Satoshi";
+        src: url("./fonts/Satoshi-BoldItalic.woff2") format("woff2"),
+          url("./fonts/Satoshi-BoldItalic.woff") format("woff"),
+          url("./fonts/Satoshi-BoldItalic.ttf") format("truetype");
+        font-weight: 700;
+        font-display: swap;
+        font-style: italic;
+      }
+
+      @font-face {
+        font-family: "Satoshi";
+        src: url("./fonts/Satoshi-Black.woff2") format("woff2"),
+          url("./fonts/Satoshi-Black.woff") format("woff"),
+          url("./fonts/Satoshi-Black.ttf") format("truetype");
+        font-weight: 900;
+        font-display: swap;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "Satoshi";
+        src: url("./fonts/Satoshi-BlackItalic.woff2") format("woff2"),
+          url("./fonts/Satoshi-BlackItalic.woff") format("woff"),
+          url("./fonts/Satoshi-BlackItalic.ttf") format("truetype");
+        font-weight: 900;
+        font-display: swap;
+        font-style: italic;
+      }
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+        font-family: "Lato";
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p {
+        margin-bottom: 0px;
+      }
+
+      .creative-resume-template {
+        padding: 20px;
+        position: relative;
+        width: 100%;
+      }
+
+      h1 {
+        font-weight: 700;
+        font-size: 25px;
+        line-height: 41px;
+        text-align: center;
+        letter-spacing: 0.06em;
+        margin-top: 0px;
+        color: #000;
+      }
+
+      h2 {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        position: relative;
+      }
+
+      .underline__div {
+        position: absolute;
+        height: 1px;
+        width: 100%;
+        left: 0px;
+        bottom: -5px;
+        background-color: #4d85f1;
+      }
+
+      p {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 14px;
+        letter-spacing: 0.06em;
+      }
+
+      h4 {
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 15px;
+        letter-spacing: 0.06em;
+      }
+
+      .email__div {
+        display: inline-block;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 14px;
+        text-align: center;
+        letter-spacing: 0.06em;
+        text-transform: lowercase;
+        justify-content: center;
+        margin-top: 5px;
+      }
+
+      .email__div span {
+        margin-bottom: 0px;
+        margin: 4px 10px;
+      }
+
+      .email__div a {
+        margin: 4px 10px;
+        color: #000;
+        text-decoration: none;
+      }
+
+      .summary .row {
+        display: inline-block;
+      }
+
+      .summary .mt-4 {
+        margin-top: 8px !important;
+      }
+
+      .col {
+        display: inline-block;
+        width: 50%;
+      }
+
+      .Summary__Content {
+        margin-top: 15px;
+      }
+
+      .Summary__Content .summary {
+        margin-top: 10px;
+      }
+
+      .Summary__Content .summary p {
+        margin-top: 8px;
+        margin-bottom: 0px;
+      }
+
+      .Summary__Content .summary h4 {
+        margin-top: 20px;
+        margin-bottom: 0px;
+      }
+
+      .Summary__Content .summary h5 {
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 14px;
+        letter-spacing: 0.06em;
+        margin-top: 10px;
+
+        margin-bottom: 0px;
+      }
+
+      .Summary__Content .summary ul {
+        list-style: disc;
+        padding-left: 20px;
+        margin-top: 15px;
+      }
+
+      .Summary__Content .summary li {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 14px;
+        letter-spacing: 0.06em;
+        padding: 5px 5px 5px 0px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="creative-resume-template">
+      <div class="resume-container">
+        <div>
+          <table style="width: 100%">
+            <tr>
+              <td style="text-align: center">
+                <h1>mudasar hussain</h1>
+                <div
+                  class="email__div"
+                  style="display: inline-block; text-align: center"
+                >
+                  <span> ${resume.profile?.city} </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="7"
+                    height="8"
+                    viewBox="0 0 7 8"
+                    fill="none"
+                  >
+                    <path d="M0 4L3.5 0L7 4L3.5 8L0 4Z" fill="black" />
+                  </svg>
+                  <a href="emailto:tanya.hill@example.com"
+                    >mudasar.hussain@ekkel.ai</a
+                  >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="7"
+                    height="8"
+                    viewBox="0 0 7 8"
+                    fill="none"
+                  >
+                    <path d="M0 4L3.5 0L7 4L3.5 8L0 4Z" fill="black" />
+                  </svg>
+                  <a href="tel:(405) 555-0128">0300-3342323</a>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="7"
+                    height="8"
+                    viewBox="0 0 7 8"
+                    fill="none"
+                  >
+                    <path d="M0 4L3.5 0L7 4L3.5 8L0 4Z" fill="black" />
+                  </svg>
+                  <a href="#">54000</a>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="7"
+                    height="8"
+                    viewBox="0 0 7 8"
+                    fill="none"
+                  >
+                    <path d="M0 4L3.5 0L7 4L3.5 8L0 4Z" fill="black" />
+                  </svg>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 100%" class="Summary__Content">
+                <div class="professional__InnerContent">
+                  <h2>
+                    <span
+                      class="underline__div"
+                      style="background-color: #4d85f1"
+                    ></span>
+                    Work
+                  </h2>
+
+                  <div class="professional__InnerContent">
+                    <h4>Frontend Developer</h4>
+                    <p>February-2022 - Present</p>
+                    <p>
+                      Developed front-end applications with web technologies
+                      such as HTML, CSS, and JavaScript. Built web solutions
+                      that improved user experience and increased customer
+                      satisfaction. Utilized version control systems such as Git
+                      and SVN to track changes in code. Resolved customer issues
+                      in a timely manner and ensured customer satisfaction by
+                      providing solutions to their needs. Collaborated with
+                      other developers to create applications that are
+                      compatible across all browsers and devices.
+                    </p>
+                  </div>
+                </div>
+                <div class="professional__InnerContent">
+                  <h2>
+                    <span
+                      class="underline__div"
+                      style="background-color: #4d85f1"
+                    ></span>
+                    Work
+                  </h2>
+
+                  <div class="professional__InnerContent">
+                    <h4>Frontend Developer</h4>
+                    <p>February-2022 - Present</p>
+                    <p>
+                      Developed front-end applications with web technologies
+                      such as HTML, CSS, and JavaScript. Built web solutions
+                      that improved user experience and increased customer
+                      satisfaction. Utilized version control systems such as Git
+                      and SVN to track changes in code. Resolved customer issues
+                      in a timely manner and ensured customer satisfaction by
+                      providing solutions to their needs. Collaborated with
+                      other developers to create applications that are
+                      compatible across all browsers and devices.
+                    </p>
+                  </div>
+                </div>
+                <div class="professional__InnerContent">
+                  <h2>
+                    <span
+                      class="underline__div"
+                      style="background-color: #4d85f1"
+                    ></span>
+                    Work
+                  </h2>
+
+                  <div class="professional__InnerContent">
+                    <h4>Frontend Developer</h4>
+                    <p>February-2022 - Present</p>
+                    <p>
+                      Developed front-end applications with web technologies
+                      such as HTML, CSS, and JavaScript. Built web solutions
+                      that improved user experience and increased customer
+                      satisfaction. Utilized version control systems such as Git
+                      and SVN to track changes in code. Resolved customer issues
+                      in a timely manner and ensured customer satisfaction by
+                      providing solutions to their needs. Collaborated with
+                      other developers to create applications that are
+                      compatible across all browsers and devices.
+                    </p>
+                  </div>
+                </div>
+                <div class="professional__InnerContent">
+                  <h2>
+                    <span
+                      class="underline__div"
+                      style="background-color: #4d85f1"
+                    ></span>
+                    Work
+                  </h2>
+
+                  <div class="professional__InnerContent">
+                    <h4>Frontend Developer</h4>
+                    <p>February-2022 - Present</p>
+                    <p>
+                      Developed front-end applications with web technologies
+                      such as HTML, CSS, and JavaScript. Built web solutions
+                      that improved user experience and increased customer
+                      satisfaction. Utilized version control systems such as Git
+                      and SVN to track changes in code. Resolved customer issues
+                      in a timely manner and ensured customer satisfaction by
+                      providing solutions to their needs. Collaborated with
+                      other developers to create applications that are
+                      compatible across all browsers and devices.
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

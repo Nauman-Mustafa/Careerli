@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <mate charest="utf-8" />
+    <title>Hello world!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+      }
+      .creative-resume-template {
+        background-color: #fff;
+        padding: 10px;
+        position: relative;
+        width: 100%;
+      }
+      .creative-resume-template:before,
+      .creative-resume-template:after {
+        content: "";
+        position: absolute;
+        height: 100px;
+        left: 0;
+        right: 0;
+        background-color: #696969;
+      }
+      .creative-resume-template:before {
+        top: 0;
+      }
+      .creative-resume-template:after {
+        bottom: 0;
+      }
+      .creative-resume-template .resume-container {
+        background-color: #fff;
+        position: relative;
+        height: 100%;
+        width: 100%;
+        z-index: 1;
+      }
+      .creative-resume-template .resume-container >div{
+        padding: 10px;
+      }
+      
+      .creative-resume-template .resume-container table{
+        margin-bottom: 20px;
+        width: 100%;
+      }
+      .creative-resume-template .resume-container table figure {
+        height: 80px;
+        width: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: #e6e6e6;
+      }
+      .creative-resume-template .resume-container table figure img {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1;
+      }
+      .creative-resume-template
+        .resume-container
+        table
+        .header-content {
+        padding: 35px 0;
+        margin-left: 10px;
+      }
+      .creative-resume-template
+        .resume-container
+        table
+        .header-content
+        .username {
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      .creative-resume-template
+        .resume-container
+        table
+        .header-content
+        .designation {
+        font-size: 12px;
+      }
+      .creative-resume-template .resume-container table .header-info {
+        margin-left: auto;
+      }
+      .creative-resume-template
+        .resume-container
+        table
+        .header-info
+        ul
+        li {
+        font-size: 10px;
+        padding: 0;
+        font-weight: normal;
+      }
+      .creative-resume-template
+        .resume-container
+        table
+        .header-info
+        ul
+        li
+        svg {
+        margin-right: 5px;
+      }
+      .creative-resume-template .resume-container .section {
+        padding: 10px 0;
+      }
+      .creative-resume-template
+        .resume-container
+        .section
+        .single-job:not(:last-child) {
+        margin-bottom: 20px;
+      }
+      .creative-resume-template .resume-container .section p {
+        font-size: 10px;
+        margin: 0;
+        margin-bottom: 5px;
+      }
+      .creative-resume-template .resume-container .section ul {
+        padding-left: 16px;
+      }
+      .creative-resume-template .resume-container .section ul li {
+        list-style: disc;
+        padding: 0;
+        font-size: 10px;
+      }
+      .creative-resume-template .resume-container .section .list {
+        display: flex;
+        flex-flow: wrap;
+      }
+      .creative-resume-template .resume-container .section .list li {
+        width: 50%;
+      }
+      .creative-resume-template .resume-container .heading {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        border-bottom: 1px solid;
+        display: flex;
+        width: 100%;
+      }
+      .creative-resume-template .resume-container .heading-2 {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+      .creative-resume-template.download-resume
+        .resume-container
+        table
+        .figure {
+        height: 120px;
+        width: 120px;
+      }
+      .creative-resume-template.download-resume
+        .resume-container
+        table
+        .header-content
+        .username {
+        font-size: 20px;
+      }
+      .creative-resume-template.download-resume
+        .resume-container
+        table
+        .header-content
+        .designation {
+        font-size: 14px;
+      }
+      .creative-resume-template.download-resume
+        .resume-container
+        table
+        .header-info
+        ul
+        li {
+        font-size: 12px;
+      }
+      .creative-resume-template.download-resume .resume-container .heading {
+        font-size: 18px;
+      }
+      .creative-resume-template.download-resume .resume-container .section p {
+        font-size: 14px;
+      }
+      .creative-resume-template.download-resume
+        .resume-container
+        .section
+        ul
+        li {
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+   
+    <div class="creative-resume-template" style="{{#ifCond resume.templateType '===' "basic"}} background-color:#1f4b93 {{/ifCond}} ;{{#ifCond resume.templateType '===' "classic"}} background-color:#2ebcae {{/ifCond}}">
+      <div class="resume-container">
+        <div  style="background-color: {{resume.resumeStyle.backgroundColor}} !important; color: {{resume.resumeStyle.color}};font-family: {{resume.resumeStyle.fontFamily}}">
+        <table>
+          <tr>
+            <td style="width: 100px;">
+              <figure>
+                <img src={{resume.profileImage}} alt="image not found" />
+              </figure>
+            </td>
+            <td>
+              <div class="header-content">
+                <div class="username">{{resume.profile.firstName}}</div>
+                <div class="designation">Account Maneger</div>
+              </div>
+            </td>
+            <td> 
+              <div class="header-info">
+                <ul>
+                  <li>
+                    <iconify-icon icon="ant-design:phone-outlined"></iconify-icon>
+                    <span>{{resume.profile.phone}} </span>
+                  </li>
+                  <li>
+                    <iconify-icon icon="fe:mail"></iconify-icon>
+                    <span>{{resume.profile.email}}</span>
+                  </li>
+                  <li>
+                    <iconify-icon
+                      icon="ant-design:linkedin-outlined"
+                    ></iconify-icon>
+                    <span>{{resume.profile.linkedin}} </span></span>
+                  </li>
+                  <li>
+                    <iconify-icon icon="akar-icons:link-chain"></iconify-icon>
+                    <span>{{resume.profile.websiteLink}}</span>
+                  </li>
+                  <li>
+                    <iconify-icon icon="clarity:map-marker-line"></iconify-icon>
+                    <span>{{resume.profile.postalCode}}</span>
+                  </li>
+                </ul>
+            </div>
+          </td>
+          </tr>
+        </table>
+        <div class="section resume-summary">
+          <div class="heading" style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">Professional Summary</div>
+          
+         {{resume.summary.description}}
+        </div>
+        <div class="section resume-summary">
+          <div class="heading" style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">Experience</div>
+          <div class="single-job">
+            {{#each resume.workHistory.history}}
+            <div class="heading-2">{{this.jobTitle}}</div>
+            <p>
+              {{this.employer}} | {{this.startMonth}}-{{this.startYear}} -
+              {{this.endMonth}}-{{this.endYear}}- {{ this.stillWork}}
+            </p>
+            {{/each}}
+           
+            
+            
+          </div>
+        </div>
+        <div class="section education">
+          <div class="heading" style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">Education</div>
+          {{#each resume.education.educationHistory}}
+          <div className="heading-2">{{this.degree}}</div>
+          <p>
+            {{this.school}} - {{this.startMonth}}-{{this.startYear}}-
+            {{this.endMonth}}-{{this.endYear}}
+          </p>
+            {{/each}}
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Suscipit
+            aut pariatur deserunt.
+          </p>
+          <ul>
+            <li>Suscipit aut pariatur deserunt.</li>
+            <li>Lorem, ipsum dolor sit amet consectetur</li>
+            <li>Aamet consectetur adipisicing elit</li>
+            <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
+          </ul>
+        </div>
+        <div class="section certification">
+          <div class="heading" style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">Certification</div>
+          {{#each resume.certification.certificate}}
+          <div className="heading-2">{{this.certificateName}}</div>
+                  <p>
+                    {{this.authority}} - {{this.dateReceMonth}}-{{this.dateReceYear}}
+                  </p>
+                  <p>{{this.certificationLink}}</p>
+                  <p>{{item?.description}}</p>
+                  
+                
+            {{/each}}
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Suscipit
+            aut pariatur deserunt.
+          </p>
+          <ul>
+            <li>Suscipit aut pariatur deserunt.</li>
+            <li>Lorem, ipsum dolor sit amet consectetur</li>
+            <li>Aamet consectetur adipisicing elit</li>
+            <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</li>
+          </ul>
+        </div>
+        <div class="section languages">
+          <div class="heading" style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">Languages</div>
+          <ul class="list">
+            {{#each resume.languages.list}}
+                <li>{{.}}</li>
+              {{else}}
+                <li>No languages</li>
+              {{/each}}
+          </ul>
+        </div>
+        <div class="section achievements" >
+          <div class="heading" style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">Achievements</div>
+          <div class="single-job">{{resume.achievements.description}}</div>
+        </div>
+        <div class="section hobbies">
+          <div class="heading" style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">Hobbies</div>
+          <ul class="list">
+            {{#each resume.hobbies.list}}
+            <li>{{.}}</li>
+          {{else}}
+            <li>No hobbies</li>
+          {{/each}}
+          </ul>
+        </div>
+        <div class="section reference">
+          <div class="heading" style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">references</div>
+          <ul>
+            <li>{{resume.references.personOne}}</li> - {{resume.references.personeOneContact}}</li>
+            <li>{{resume.references.personTwo}}</li> - {{resume.references.personTwoContact}}</li>
+          </ul>
+        </div>
+        <div class="section customSection">
+          
+          {{#each resume.customSection}}
+         
+          <div class="heading" style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">{{this.title}}</div>
+                  <p>{{this.description}}</p>
+                  
+                
+            {{/each}}
+          
+        </div>
+      </div>
+      </div>
+    </div>
+    
+    <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
+   
+  </body>
+</html>

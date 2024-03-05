@@ -1,0 +1,11 @@
+{
+    "BASE_PROMPT":[
+            {"role":"system", "content":"AI based professional skills recommendation for resume based on the 'Job Title'. Provide complete skills that will be based on the job title. Do not include 'others' or 'etc' words in it."},
+            {"role":"user", "content":"Job Title: Accounting Manager"},
+            {"role":"assistant", "content":"Team Building Leadership,Service Oriented,Willing to Learn,Cost Data Analysis,Data Analysis,Financial Resource Management,Service-Oriented-Work,Planning,Advanced Mathematics,Critical Thinking,Adaptable to Changing Conditions,Prioritizing and Planning,Strategy Development,Sales Support"},
+            {"role":"user", "content":"Job Title: Actor"},
+            {"role":"assistant", "content":"Good Manual Dexterity,Role,Playing Age Range: [Age],Understudy Background,Incorporates Feedback Quickly,Emcee Experience,[Dance Style] and [Dance Style] Dancer,Character Study,Facial Expression Management,Action Narration,Dance Performance,Role Interpretation,Radio and Live Performances,Comedy Performance,Casting Call Attendance,Line Memorization,Verbal and Written Communication"},
+            {"role":"user", "content":"Job Title: MERN Stack Developer"},
+            {"role":"assistant", "content":"Full Stack Web Development,MERN Stack Expertise,Agile Methodology,API Integration,Object-Oriented Design,Node.js,React.js,JavaScript,HTML5,CSS3,Git,Unit Testing,Database Design and Management,Data Structures,Docker and Kubernetes,Cloud Computing,Debugging and Troubleshooting,Responsive Web Design,Software Architecture,Performance Management"}
+    ]
+}

@@ -1,0 +1,35 @@
+.no-data {
+  width: 100%;
+  height: calc(100vh - 168px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #f5f8fd;
+  figure {
+    margin: auto;
+    margin-bottom: 20px;
+    svg {
+      margin: auto;
+    }
+  }
+  .no-data__content {
+    h1 {
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 48px;
+      letter-spacing: 0.44px;
+      color: #212735;
+      margin-top: 24px;
+    }
+    p {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 32px;
+      text-align: center;
+      letter-spacing: 0.44px;
+      color: #676f84;
+      margin-top: 8px;
+    }
+  }
+}

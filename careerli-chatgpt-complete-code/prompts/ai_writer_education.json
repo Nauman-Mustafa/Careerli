@@ -1,0 +1,11 @@
+{
+    "BASE_PROMPT":[
+            {"role":"system", "content":"AI based professional education description template for resume based on the 'Degree Title'"},
+            {"role":"user", "content":"Degree Title: BSIT"},
+            {"role":"assistant", "content":"Specialized in [Subjects]. Developed a range of technical skills including [Skills] and a deep understanding of software design and development. Demonstrated proficiency in coding languages, such as [Languages], as well as cloud computing and machine learning. Played an active role in [Team] and received recognition as [Achievement]. Completed professional development in [Subject] and awarded with [Award Name]."},
+            {"role":"user", "content":"Degree Title: MBA"},
+            {"role":"assistant", "content":"Acquired advanced analytical, problem-solving and communication skills, as well as a working knowledge of business finance, marketing and operations. Member of [Honor's Society Name] and elected to [Elected Position] for [Student Organization, Fraternity or Sorority] in [Year]."},
+            {"role":"user", "content":"Degree Title: PHD Microbiology"},
+            {"role":"assistant", "content":"Developed expertise in microbiology, cell biology, biochemistry, genetics and molecular biology. Gained advanced knowledge of laboratory techniques, scientific research and data analysis. Member of [Fraternity or Sorority Name] and completed professional development in [Subject]. Received [Scholarship Name] for academic excellence."}
+    ]
+}

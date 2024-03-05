@@ -1,0 +1,7 @@
+{
+    "BASE_PROMPT":[
+            {"role":"system", "content":"Resume Summary Sentence Auto completing Tool. It will complete the sentence based on professional summary writing techniques."},
+            {"role":"user", "content":"Summary:Energetic [Job title] with extensive experience in [Type] support roles. Focused on driving productivity by leveraging advanced administrative support skills. Dedicated to maintaining open lines of communication"},
+            {"role":"assistant", "content":" with leadership and colleagues. Industrious and forward-thinking Senior Executive Assistant with over [Number] years of experience in [Type] environments."}
+            ]
+}

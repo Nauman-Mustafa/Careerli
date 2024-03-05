@@ -1,0 +1,227 @@
+.my-resume-container {
+  padding: 24px;
+  .my-resume-wrapper {
+    margin: 0 auto;
+    margin-top: 10px;
+  }
+  .single-resume-box {
+    display: flex;
+    height: 100%;
+    padding-bottom: 24px;
+    .resume-child {
+      background: #ffffff;
+      border-radius: 24px;
+      text-align: center;
+      padding: 24px 24px 0;
+      width: 100%;
+      figure {
+        margin: 0;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+        }
+      }
+      h2 {
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 48px;
+        margin-bottom: 16px;
+      }
+      .btn-yellow {
+        margin: auto;
+        &:hover {
+          background-color: #9e675e;
+          color: #fff;
+        }
+      }
+      .figure {
+        height: 296px;
+        background: #fafafa;
+        width: 100%;
+        border: 1px solid #e6e6e6;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        padding: 24px;
+        cursor: pointer;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+        }
+      }
+      .resume-content-container {
+        display: flex;
+        justify-content: space-between;
+        padding: 24px 0;
+        > div {
+          text-align: left;
+          p {
+            font-size: 12px;
+          }
+        }
+        h4 {
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 32px;
+          margin: 0;
+          color: #000000;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+        }
+        .action-buttons {
+          display: flex;
+        }
+        .btn-action {
+          padding: 0;
+          background-color: transparent;
+          border: 0;
+          height: 30px;
+          width: 30px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          margin-left: 8px;
+          transition: all 0.4s ease;
+          svg {
+            margin-right: 0;
+            font-size: 15px;
+          }
+          &.btn-edit {
+            background: #faefe5;
+            border-radius: 44px;
+            color: #000000;
+          }
+          &.btn-dropdown {
+            background: #fafafa;
+            border-radius: 44px;
+            color: #000;
+            &::after {
+              display: none;
+            }
+          }
+          &:hover {
+            background-color: #9e675e;
+            color: #fff;
+          }
+        }
+        .dropdown-menu {
+          margin-top: 10px;
+          background: #ffffff;
+          padding: 20px;
+          border: 1px solid #e6e6e6;
+          box-shadow: 0px 0px 1px rgba(48, 49, 51, 0.05),
+            0px 1px 3px rgba(48, 49, 51, 0.1);
+          border-radius: 16px;
+          min-width: 192px;
+          .btn {
+            width: 100%;
+          }
+          ul {
+            margin: 10px 0 0;
+            width: 100%;
+            li {
+              padding: 10px 0;
+              .dropdown-link {
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 20px;
+                color: #000;
+                transition: all 0.4s ease;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 20px;
+                color: #000;
+                transition: all 0.4s ease;
+                svg {
+                  margin-right: 10px;
+                }
+                &.delete {
+                  color: #ff5e66;
+                  cursor: pointer;
+                }
+                &:hover {
+                  color: #9e675e;
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (min-width: 1080px) {
+  .my-resume-container {
+    .my-resume-wrapper {
+      max-width: 1050px;
+      .col-lg-4 {
+        max-width: 350px;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .my-resume-container {
+    .single-resume-box {
+      .resume-child {
+        .resume-content-container {
+          h4 {
+            font-size: 16px;
+
+            line-height: 24px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.pagination {
+  justify-content: center;
+  gap: 10px;
+  .Previous {
+    background: #fafafa;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    width: 50px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 32px;
+    color: #000000;
+    svg {
+      font-size: 18px;
+    }
+  }
+  .Page {
+    background: #fafafa;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    width: 100px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 32px;
+    color: #000000;
+  }
+}

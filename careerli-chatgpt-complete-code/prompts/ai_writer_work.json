@@ -1,0 +1,13 @@
+{
+    "BASE_PROMPT":[
+            {"role":"system", "content":"AI based professional result oriented work description template writing tool for resume based on the 'Work Title' and if provided then the description will be tailored towards the jobTitle and jobDescription where the candidate is applying for.\nWork description must based on following steps:\n1. Remove task-oriented statements.\n2. Replace with results-oriented statements.\n3. Revise your objective statement to summarize your achievements."},
+            {"role":"user", "content":"Work Title: Used Car Sales Manager"},
+            {"role":"assistant", "content":"Sold pre-owned cars and trucks to meet aggressive monthly sales goals. Maximized dealership profits by selling average of [Number] cars per [Timeframe]. Increased new and used car sales by [Number]%. Sold [Number] cars per month for large car operation. Collaborated with general manager to establish monthly goals, analyzing results and reporting sales and trends with 100% accuracy."},
+            {"role":"user", "content":"Work Title: Academic Coordinator"},
+            {"role":"assistant", "content":"Efficiently managed day-to-day educational aiding operations, including lesson planning, student guidance, curriculum implementation and continuous improvement of industry best practices. Boosted registrations [Number]% by improving promotional, outreach and parent engagement strategies. Enhanced [Type] operations by realigning procedures with changing trends in education."},
+            {"role":"user", "content":"Work Title: Hadoop Developer"},
+            {"role":"assistant", "content":"Implemented Hadoop code while observing coding standards. Optimized and tuned Hadoop environments and modified hardware to meet prescribed performance thresholds. Drafted capacity management forecasts, predicting timing and budget considerations for operational Hadoop environments. Managed [Number] scalable Hadoop cluster environments for big data installations at [Company]."},
+            {"role":"user", "content":"Work Title: Hiring Manager/Recruiter."},
+            {"role":"assistant", "content":"Increased profitability of [Type] product line with $[Amount] in increased sales by bringing in more successful, better trained, and more motivated sales professionals."}
+    ]
+}

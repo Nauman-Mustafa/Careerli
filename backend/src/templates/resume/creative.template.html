@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creative Template</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+      font-family: "Lato", sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+      margin-bottom: 0px;
+    }
+
+    body {
+      padding: 0;
+      margin: 0;
+      color: #000;
+    }
+
+    .creative-resume-template {
+      position: relative;
+      width: 100%;
+      z-index: 2;
+      min-height: 100%;
+    }
+
+    .creative-resume-template:before,
+    .creative-resume-template:after {
+      content: '';
+      position: absolute;
+      width: 139px;
+      height: 332px;
+      background-repeat: no-repeat;
+    }
+
+    .creative-resume-template:before {
+      left: -10px;
+      top: 0%;
+      background-image: url("https://i.postimg.cc/Hx7f570q/Subtractlife.png");
+    }
+
+    .creative-resume-template:after {
+      right: -10px;
+      bottom: 0%;
+      background-image: url("https://i.postimg.cc/pV3LgD1F/Subtractright.png");
+    }
+
+    .Templete__img {
+      z-index: -1;
+    }
+
+    .Templete__img img {
+      position: absolute;
+      z-index: -1;
+    }
+
+    .Templete__img .create-img-one {
+      left: 0px;
+      top: 0px;
+    }
+
+    .Templete__img .create-img-two {
+      right: 0px;
+      bottom: 0px;
+    }
+
+    h1 {
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 44px;
+      text-align: center;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    h4 {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 22px;
+      text-align: center;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+
+    h5 {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 17px;
+      letter-spacing: 0.06em;
+      margin-top: 15px;
+    }
+
+    .personal__Profile {
+      width: 100%;
+      padding-top: 40px;
+    }
+
+    .personal__Profile .personal__Profile__left {
+      width: 40%;
+      padding: 35px 23px 35px 0;
+      border-right: 1px dashed rgba(0, 0, 0, 0.54);
+      vertical-align: baseline;
+    }
+
+    .personal__Profile .personal__Profile__left .creative__profile {
+      position: relative;
+      width: 143px;
+      height: 143px;
+      border-radius: 50%;
+      margin: auto;
+    }
+
+    @media (max-width: 1440px) {
+      .creative__profile {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    .personal__Profile .personal__Profile__left .creative__profile img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .personal__Profile .personal__Profile__right {
+      width: 60%;
+    }
+
+    p {
+      margin-top: 5px;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 15px;
+      letter-spacing: 0.06em;
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 12px;
+      margin-top: 13px;
+    }
+
+    ul li {
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 12px;
+      letter-spacing: 0.06em;
+      padding: 5px 5px 5px 0px;
+    }
+
+
+    .professional__history {
+      padding-left: 24px;
+    }
+
+    .professional__history h4 {
+      text-align: start;
+    }
+
+    .professional__InnerContent {
+      margin-top: 20px;
+    }
+
+    .professional__InnerContent h5 {
+      margin-top: 15px;
+    }
+
+    .personalprofile {
+      margin-top: 28px;
+    }
+
+    .personalprofile .personalprofile__inner {
+      margin-bottom: 21px;
+    }
+
+    .personalprofile h4 {
+      text-align: start;
+      margin-left: 10px;
+      margin-top: 0px;
+      display: inline-block;
+    }
+
+    .personalprofile p {
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 12px;
+      letter-spacing: 0.06em;
+      margin-top: 8px;
+      margin-bottom: 0px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="creative-resume-template"
+    style="background-color: {{resume.resumeStyle.backgroundColor}} !important; color: {{resume.resumeStyle.color}};font-family: {{resume.resumeStyle.fontFamily}};">
+    <div class="resume-container" style="padding: 25px;">
+      <table style="width: 100%">
+        <tr>
+          <td colspan="2" style="padding-bottom: 40px">
+            <h1>{{resume.profile.firstName}}</h1>
+            <h4>Senior Graphic Designer</h4>
+          </td>
+        </tr>
+        <tr class="personal__Profile">
+          <td class="personal__Profile__left">
+            <div class="personalprofile">
+              <div class="personalprofile__inner">
+                <figure class="creative__profile">
+              <img src={{resume.profileImage}} alt="img not fount " />
+            </figure>
+                <h4>
+                  PERSONAL<br />
+                  PROFILE
+                </h4>
+              </div>
+              <p>
+                {{resume.summary.description}}
+              </p>
+            </div>
+            <div class="personalprofile">
+              <div class="personalprofile__inner">
+                <iconify-icon icon="material-symbols:mail-rounded" style="color: {{resume.resumeStyle.color}}">
+                </iconify-icon>
+                <h4>
+                  GET IN
+                  <br />
+                  TOUCH
+                </h4>
+              </div>
+              <p>Phone number: {{resume.profile.phone}}</p>
+              <p>Email Address:{{resume.profile.email}}</p>
+              <p>Home Address:</p>
+              <p class="mt-0">
+                {{resume.profile.address}}-{{resume.profile.postalCode}}
+              </p>
+              <p>Linkedin:</p>
+              <p class="mt-0">{{resume.profile.linkedin}}</p>
+            </div>
+          </td>
+          <td class="personal__Profile__right">
+            <div class="professional__history">
+              <h4 style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">
+                PROFESSIONAL HISTORY</h4>
+
+              {{#each resume.workHistory.history}}
+              <div class="professional__InnerContent">
+                <h5>{{this.jobTitle}}</h5>
+                <p>
+                  {{this.employer}} | {{this.startMonth}}-{{this.startYear}} -
+                  {{this.endMonth}}-{{this.endYear}}- {{ this.stillWork}}
+                </p>
+                <ul>
+                  <li>{{this.description}}</li>
+                </ul>
+              </div>
+              {{/each}}
+
+
+              <h4 style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">
+                EDUCATIONAL HISTORY</h4>
+              {{#each resume.education.educationHistory}}
+
+
+              <div class="professional__InnerContent">
+                <h5>{{this.degree}}</h5>
+                <p>
+                  {{this.school}} - {{this.startMonth}}-{{this.startYear}}-
+                  {{this.endMonth}}-{{this.endYear}}
+                </p>
+
+                <ul>
+                  <li>{{this.description}}</li>
+                </ul>
+              </div>
+              {{/each}}
+              <h4 style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">
+                Certifications</h4>
+              {{#each resume.certification.certificate}}
+              <div class="professional__InnerContent">
+                <h5>{{this.certificateName}}</h5>
+                <p>
+                  {{this.authority}} - {{this.dateReceMonth}}-{{this.dateReceYear}}
+                </p>
+                <p>{{this.certificationLink}}</p>
+                <p>{{item?.description}}</p>
+
+              </div>
+              {{/each}}
+
+
+              <h4 style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">
+                Publications</h4>
+              {{#each resume.publications.publicationList}}
+              <div class="professional__InnerContent">
+                <h5>{{this.title}}</h5>
+
+                <p>
+                  {{item.publisher}} | {{item.isbn}}-
+                  {{item.dateReceMonth}} - {{item.dateReceYear}}
+                </p>
+                <p>{{item?.description}}</p>
+
+              </div>
+              {{/each}}
+
+              <div class="professional__InnerContent">
+                <h4>HOBBIES AND INTERESTS</h4>
+                <ul>
+                  {{#each resume.hobbies.list}}
+                  <li>{{.}}</li>
+                  {{else}}
+                  <li>No hobbies</li>
+                  {{/each}}
+                </ul>
+
+              </div>
+              <div class="professional__InnerContent">
+                <h4
+                  style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">
+                  Skills</h4>
+                <ul>
+                  {{#each resume.skills.list}}
+                  <li>{{.}}</li>
+                  {{else}}
+                  <li>No Skills</li>
+                  {{/each}}
+                </ul>
+
+              </div>
+              <div class="professional__InnerContent">
+                <h4
+                  style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">
+                  Languages</h4>
+                <ul>
+                  {{#each resume.languages.list}}
+                  <li>{{.}}</li>
+                  {{else}}
+                  <li>No languages</li>
+                  {{/each}}
+                </ul>
+
+
+              </div>
+              <div class="professional__InnerContent">
+                <h4
+                  style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">
+                  references</h4>
+                <ul>
+                  <li>{{resume.references.personOne}}</li> - {{resume.references.personeOneContact}}</li>
+                  <li>{{resume.references.personTwo}}</li> - {{resume.references.personTwoContact}}</li>
+                </ul>
+              </div>
+
+              {{#each resume.customSection}}
+
+              <h4 style="font-size: {{resume.resumeStyle.fontSize}}px; font-weight: {{resume.resumeStyle.fontWeight}}">
+                {{this.title}}</h4>
+              <div class="professional__InnerContent">
+                <p>{{this.description}}</p>
+              </div>
+
+
+
+              {{/each}}
+
+
+            </div>
+          </td>
+        </tr>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
+</body>
+
+</html>

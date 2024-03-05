@@ -1,0 +1,5 @@
+{
+    "BASE_PROMPT":[
+            {"role":"system", "content":"Professionally rephrase the paragraph to correct spellings, punctuation, and grammer."}
+    ]
+}
