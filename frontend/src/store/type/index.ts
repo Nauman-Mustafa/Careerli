@@ -21,3 +21,4 @@ export const SETUP_INTENTCREATION = "SetupIntentCreation";
 export const GET_USER_INVOICES = "GetUserInvoices";
 export const UPDATE_PAYMENT_METHODS = "UpdatePaymentMethods";
 export const DESTROY_BILLING = "resetbilling";
+export const UPDATE_SESSION_STATUS = '[Billing] Update Session Status';

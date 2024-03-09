@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import {
   Elements,
-  PaymentElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
@@ -9,35 +9,52 @@ import { toast } from "react-hot-toast";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUB_KEY as string);
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ products }: { products: any[] }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const [selectedProduct, setSelectedProduct] = useState<any>();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
-    const result = await stripe.confirmSetup({
-      elements,
-      confirmParams: {
-        return_url: `${import.meta.env.VITE_SELF_URL}/stripe-intent-redirect`,
-      },
-    });
-
-    if (result.error) {
-      toast(result.error.message as string);
+    if (!selectedProduct) {
+      toast("Please select a product");
+      return;
     }
+
+    // Use selectedProduct for checkout
+    // You may need to create a PaymentIntent or PaymentMethod
+    // Refer to Stripe documentation for more details
   };
+
+  useEffect(() => {
+    // Pre-select the first product initially
+    if (products.length > 0) {
+      setSelectedProduct(products[0]);
+    }
+  }, [products]);
 
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <PaymentElement />
+        <select
+          value={selectedProduct ? selectedProduct.id : ""}
+          onChange={(e) =>
+            setSelectedProduct(
+              products.find((p) => p.id === e.target.value)
+            )
+          }
+        >
+          {products.map((product) => (
+            <option key={product.id} value={product.id}>
+              {product.name} - ${product.price}
+            </option>
+          ))}
+        </select>
         <div className="d-flex justify-content-center mt-3 w-100">
           <button className="save__btn w-100" disabled={!stripe}>
             Submit
@@ -49,20 +66,15 @@ const CheckoutForm = () => {
 };
 
 const StripePaymentMethodForm = (props: any) => {
-  let { client_secret } = props;
+  let { client_secret, products } = props;
 
-  const options = {
-    clientSecret: client_secret,
-  };
+  if (!client_secret || !products) return null;
 
-  if (!client_secret) return <></>;
-  else {
-    return (
-      <Elements stripe={stripePromise} options={options}>
-        <CheckoutForm />
-      </Elements>
-    );
-  }
+  return (
+    <Elements stripe={stripePromise}>
+      <CheckoutForm products={products} />
+    </Elements>
+  );
 };
 
 export default StripePaymentMethodForm;

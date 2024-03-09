@@ -9,7 +9,7 @@ import useFetch from "use-http";
 import * as yup from "yup";
 import { ValidationError } from "../../components/form/validation.component";
 import Header from "../../components/Header/Header";
-import { saveProfile } from "../../store/action";
+import { saveProfile,updateSessionStatus } from "../../store/action";
 import StripePaymentMethodForm from "../setting/StripePaymentMethodForm";
 import "./profileStyle.scss";
 const schema = yup.object().shape({
@@ -56,8 +56,9 @@ const UserProfile = () => {
   const initiateCancelation = () => {
     const CancelPlan = async () => {
       const res = await post("subscription/cancel-subscription");
-
+      // dispatch(updateSessionStatus(false));
       toast.success(res?.message);
+
     };
     CancelPlan();
 
@@ -68,7 +69,7 @@ const UserProfile = () => {
   const handleModalClose = () => setModalShow(false);
   useEffect(() => {
     getUserInvoices();
-  }, []);
+  }, []); 
   const getUserInvoices = async () => {
     const res = await get("subscription/list-invoices");
 
@@ -323,7 +324,7 @@ const UserProfile = () => {
                   </div>
                 </Collapse>
               </div>
-              {billingSelector?.user?.stripe_checkout_session_status && (
+              {billingSelector?.user?.stripe_checkout_session_id && (
                 <div
                   className="profile-box"
                   style={card ? { display: "none" } : { display: "block" }}
@@ -389,7 +390,7 @@ const UserProfile = () => {
                   </div>
                 </div>
               </div> */}
-              {billingSelector?.user?.stripe_checkout_session_status && (
+              {billingSelector?.user?.stripe_checkout_session_id && (
                 <div className="profile-box delete-box">
                   <div className="box-header d-flex justify-content-between align-items-center">
                     <div className="header-left">
@@ -425,7 +426,7 @@ const UserProfile = () => {
               </div>
             </>
           ) : (
-            billingSelector?.user?.stripe_checkout_session_status && (
+            billingSelector?.user?.stripe_checkout_session_id && (
               <>
                 <div className="profile-box">
                   <div className="box-header d-flex justify-content-between">
