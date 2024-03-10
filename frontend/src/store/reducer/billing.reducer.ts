@@ -10,6 +10,7 @@ import {
   SETUP_INTENTCREATION,
   UPDATE_PAYMENT_METHOD,
   UPDATE_PAYMENT_METHODS,
+  UPDATE_SESSION_STATUS
 } from "../type";
 
 export interface IBilling {
@@ -63,6 +64,7 @@ export const billingReducer = (state = initialState, action: any) => {
       return { ...state, user: action.payload };
     case DESTROY_BILLING:
       return { ...initialState };
+     
     default:
       return state;
   }

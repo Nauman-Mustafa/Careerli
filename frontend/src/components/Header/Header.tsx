@@ -28,20 +28,22 @@ const Header = () => {
   const auth: any = useSelector((store: any) => store.auth);
   const [pricesData, setPricesData] = useState([]);
   const { theme, setTheme } = useContext(ThemeContext);
-  const navMenu = useMemo(
-    () => [
-      { menuName: "Resume", to: "/dashboard" },
-      { menuName: "Cover Letter", to: "/cover-letter" },
-      {
-        menuName:
-          !billingSelector?.user?.curr_price_id && auth.isLoggedIn
-            ? "Pricing"
-            : null,
-        to: !billingSelector?.user?.curr_price_id ? "/pricing-plan" : "",
-      },
-    ],
-    [billingSelector]
-  );
+ const navMenu = useMemo(
+  () => [
+    { menuName: "Resume", to: "/dashboard" },
+    { menuName: "Cover Letter", to: "/cover-letter" },
+    {
+      // Check if the user is logged in and doesn't have a current price ID
+      menuIcon:
+        !billingSelector?.user?.curr_price_id && auth.isLoggedIn
+          ? svgIcons.pricing // Render the crown icon if conditions are met
+          : null,
+      to: !billingSelector?.user?.curr_price_id ? "/pricing-plan" : "/upgrade-plan", // Link destination
+    },
+  ],
+  [billingSelector]
+);
+
   const [scroll, setScroll] = useState(false);
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -107,24 +109,32 @@ const Header = () => {
         {pathName === "/reset-password" ? null : (
           <>
             <div className={toggleActive ? "nav-menu active-menu" : "nav-menu"}>
-              <ul>
-                {navMenu.map((item, i) => (
-                  <>
-                    {item.menuName && (
-                      <li key={`menu-item-${i}`}>
-                        <NavLink
-                          className={({ isActive }) =>
-                            isActive ? "active-item menu-item" : "menu-item"
-                          }
-                          to={item.to}
-                        >
-                          {item.menuName}
-                        </NavLink>
-                      </li>
-                    )}
-                  </>
-                ))}
-              </ul>
+            <ul>
+    {navMenu.map((item, i) => (
+      <li key={`menu-item-${i}`}>
+        {/* Render NavLink if menuName exists */}
+        {item.menuName && (
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "active-item menu-item" : "menu-item"
+            }
+            to={item.to}
+          >
+            {item.menuName}
+          </NavLink>
+        )}
+        {/* Render button with icon if menuIcon exists */}
+        {item.menuIcon && (
+          <button
+            className="btn btn-yellow"
+            onClick={() => navigate(item.to)}
+          >
+            {item.menuIcon}
+          </button>
+        )}
+      </li>
+    ))}
+  </ul>
             </div>
             <div className="header-right">
               {auth?.isLoggedIn ? (

@@ -10,6 +10,7 @@ import {
   SETUP_INTENTCREATION,
   UPDATE_PAYMENT_METHOD,
   UPDATE_PAYMENT_METHODS,
+  UPDATE_SESSION_STATUS,
 } from "../type";
 
 export const getStripeConfig = (data: any) => ({
@@ -66,3 +67,4 @@ export const configureCurrentCheckoutSessionID = (data: any) => ({
 export const destroyBilling = () => ({
   type: DESTROY_BILLING,
 });
+
