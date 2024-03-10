@@ -9,7 +9,7 @@ import useFetch from "use-http";
 import * as yup from "yup";
 import { ValidationError } from "../../components/form/validation.component";
 import Header from "../../components/Header/Header";
-import { saveProfile,updateSessionStatus } from "../../store/action";
+import { saveProfile,cancelSubsription } from "../../store/action";
 import StripePaymentMethodForm from "../setting/StripePaymentMethodForm";
 import "./profileStyle.scss";
 const schema = yup.object().shape({
@@ -58,13 +58,13 @@ const UserProfile = () => {
       const res = await post("subscription/cancel-subscription");
       // dispatch(updateSessionStatus(false));
       toast.success(res?.message);
-
+      // dispatch(cancelSubsription(res.data));
     };
     CancelPlan();
 
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 2000);
+    // setTimeout(() => {
+    //   window.location.href = "/";
+    // }, 2000);
   };
   const handleModalClose = () => setModalShow(false);
   useEffect(() => {

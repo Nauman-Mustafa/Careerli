@@ -264,8 +264,8 @@ export class SubscriptionsService extends BaseService {
         HttpStatus.ACCEPTED,
         "Checkout Cancelled",
         {
-          stripe_checkout_session_id:
-            subscriptionRepo.stripe_checkout_session_id,
+          stripe_checkout_session_id: subscriptionRepo.stripe_checkout_session_id,
+          stripe_checkout_session_status: subscriptionRepo.stripe_checkout_session_status, // Include the updated status
           cancel: cancel_subscription,
         }
       );
