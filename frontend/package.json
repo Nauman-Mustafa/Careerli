@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start:dev": "copy .env.dev .env && vite --mode development",
-    "start:prod": "copy .env.prod .env && vite --mode development",
-    "build": "copy .env.prod .env && vite build --mode production",
-    "build:prod": "copy .env.prod .env && vite build --mode production",
+    "start:dev": "cp .env.dev .env && vite --mode development",
+    "start:prod": "cp .env.prod .env && vite --mode development",
+    "build": "cp .env.prod .env && vite build --mode production",
+    "build:prod": "cp .env.prod .env && vite build --mode production",
     "serve": "vite preview",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -10,7 +10,7 @@ import {
   Res,
   UploadedFile,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
@@ -36,10 +36,15 @@ export class resumeController {
     @Param() param
   ) {
     const { page, limit } = req.query;
-  const condition = {}; 
+    const condition = {};
     const userId = req?.user?.userId;
 
-    const response = await this.documentsService.getMyAllResume(userId,condition, parseInt(page, 10), parseInt(limit, 10));
+    const response = await this.documentsService.getMyAllResume(
+      userId,
+      condition,
+      parseInt(page, 10),
+      parseInt(limit, 10)
+    );
     return res.status(response.code).json(response);
   }
   @Post("create")
@@ -85,8 +90,19 @@ export class resumeController {
 
   @Get("generate/:id")
   async generatePdf(@Req() req, @Res() res, @Body() info: any, @Param() param) {
+    console.log("req is", req.user);
     const id = param?.id;
+    //  checking for user role and download count here
+    if (req.user.role === "Free Member" && req.user.count.downloads === 0) {
+      return res.status(400).json({
+        message:
+          "You have reached the limit of downloads for a Free Member. Please buy a subscription to enjoy more downloads.",
+        statusCode: 400,
+      });
+    }
+
     const response = await this.documentsService.downloadPdf(id);
+    console.log("response is", response);
 
     // const filePath = path.join(process.cwd(), `docs/${response.fileName}.pdf`);
     // if (filePath) {

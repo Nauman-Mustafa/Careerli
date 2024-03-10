@@ -42,10 +42,15 @@ export class CoverLetterController {
     @Param() param
   ) {
     const { page, limit } = req.query;
-  const condition = {};
+    const condition = {};
     const userId = req?.user?.userId;
 
-    const response = await this.documentsService.getMyAllCoverLetter(userId,condition, parseInt(page, 10), parseInt(limit, 10));
+    const response = await this.documentsService.getMyAllCoverLetter(
+      userId,
+      condition,
+      parseInt(page, 10),
+      parseInt(limit, 10)
+    );
     return res.status(response.code).json(response);
   }
 
@@ -67,6 +72,14 @@ export class CoverLetterController {
   @Get("generate/:id")
   async generatePdf(@Req() req, @Res() res, @Body() info: any, @Param() param) {
     const id = param?.id;
+    console.log("req is", req);
+    if (req.user.role === "Free Member" && req.user.count.downloads === 0) {
+      return res.status(400).json({
+        message:
+          "You have reached the limit of downloads for a Free Member. Please buy a subscription to enjoy more downloads.",
+        statusCode: 400,
+      });
+    }
     const response = await this.documentsService.downloadPdf(id);
     console.log(response);
     // const filePath = path.join(process.cwd(), `docs/${response.fileName}.pdf`);
