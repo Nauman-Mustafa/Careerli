@@ -1,11 +1,8 @@
 import { Document, Schema } from "mongoose";
-
 export interface IUserDocument extends Document {
   email: string;
-
   password: string;
   avatar?: string;
-
   roles: Array<string>;
   about: string;
   firstName: string;
@@ -15,6 +12,10 @@ export interface IUserDocument extends Document {
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date;
+  downloadAuthority: {
+    cv: number;
+    coverLetter: number;
+  };
 }
 
 const UserSchema = new Schema(
@@ -52,7 +53,12 @@ const UserSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    
     deletedAt: Date,
+    downloadAuthority: {
+      cv: { type: Number, default: 0 },
+      coverLetter: { type: Number, default: 0 },
+    },
   },
   { timestamps: true }
 );

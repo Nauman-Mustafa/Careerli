@@ -7,7 +7,15 @@ import Stripe from "stripe";
 import { BaseService } from "../shared/base.service";
 import { updatePaymentMethodDTO } from "./dto/subscription.dto";
 import { ISubscriptionSchema } from "./schema/subscription.schema";
+import { IUserDocument } from "../user/user.schema";
+import { UserService } from "../user/user.service";
 
+interface Product {
+  id: string;
+  // Add other properties as needed
+  active: boolean;
+  // Define other properties of Product
+}
 /**
  *  FLOW OF THE MODULE
  *
@@ -35,7 +43,9 @@ export class SubscriptionsService extends BaseService {
     protected subscriptionRepo: Model<ISubscriptionSchema>,
 
     @InjectStripe()
-    private readonly stripeService: Stripe
+    private readonly stripeService: Stripe,
+    @Inject(UserService)
+    private readonly userService: UserService
   ) {
     super(subscriptionRepo);
   }
@@ -54,10 +64,14 @@ export class SubscriptionsService extends BaseService {
       const prices = await this.stripeService.prices.list({
         expand: ["data.product"],
       });
-
+console.log(prices);
+const activePrices = prices.data.filter(price => {
+  const product = price.product as Product; // Type assertion
+  return product && product.active; // Check if product is not null and active
+});console.log(activePrices);
       const data = {
         publishableKey: process.env.STRIPE_PUB_KEY,
-        prices: prices.data,
+        prices: activePrices,
       };
 
       return generateResponse(
@@ -309,6 +323,7 @@ export class SubscriptionsService extends BaseService {
         info.plan = plan.product;
         info.details = active;
       }
+      await this.updateDownloadAuthority( subscription);
       return generateResponse(false, HttpStatus.ACCEPTED, "Subscription Data", {
         ...subscription.toJSON(),
         ...info,
@@ -322,7 +337,56 @@ export class SubscriptionsService extends BaseService {
       );
     }
   }
+  async updateDownloadAuthority(subscriptionData: any) {
+    try {
+      const { userID, curr_price_id } = subscriptionData;
+     // If userID is not provided or invalid, return early
+     if (!userID) {
+      console.error("Invalid userID:", userID);
+      return; // Stop execution of the function
+  }
+      // Fetch product prices from Stripe
+      const products = await this.stripeService.products.list();
+  
+      // Map product prices to their IDs
+    const productPrices: { [key: string]: number[] } = {};
+for (const [productId, product] of Object.entries(products.data)) {
+  const prices = await this.stripeService.prices.list({ product: productId });
+  const sortedPrices = prices.data.map(price => price.unit_amount).sort((a, b) => a - b);
+  productPrices[productId] = sortedPrices;
+}
 
+// Determine the download authority based on the position of the current product in the list of products
+let downloadAuthority = { cv: 3, coverLetter: 3 };
+if (curr_price_id) {
+  const sortedPrices = productPrices[curr_price_id];
+  if (sortedPrices) {
+    const index = Object.keys(productPrices).findIndex(id => id === curr_price_id);
+    if (index === 0) {
+      downloadAuthority = { cv: 5, coverLetter: 5 }; // Assigning basic authority
+    } else if (index === 1) {
+      downloadAuthority = { cv: 10, coverLetter: 10 }; // Assigning premium authority
+    } else if (index === 2) {
+      downloadAuthority = { cv: 15, coverLetter: 15 }; // Assigning platinum authority
+    }
+  }
+}
+
+  
+      // Update user's download authority
+      const user = await this.userService.findByID(userID);
+      if (user && !user.failed && user.data) {
+        user.data.downloadAuthority = downloadAuthority;
+        await user.data.save();
+        return generateResponse(false, HttpStatus.OK, "Download authority updated successfully", downloadAuthority);
+      } else {
+        return generateResponse(true, HttpStatus.NOT_FOUND, "User not found or invalid user ID", null);
+      }
+    } catch (error) {
+      return generateResponse(true, HttpStatus.INTERNAL_SERVER_ERROR, "Could not update download authority", error);
+    }
+  }
+  
   async getLastDate(userID) {
     try {
       const subscription = await this.subscriptionRepo.findOne({
@@ -630,7 +694,7 @@ export class SubscriptionsService extends BaseService {
           new: true,
         }
       );
-
+      await this.updateDownloadAuthority( subscription);
       return generateResponse(
         false,
         HttpStatus.OK,

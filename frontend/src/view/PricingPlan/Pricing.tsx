@@ -60,6 +60,7 @@ const Pricing = () => {
     );
 
   const initiateCheckoutSession = async (priceID: string) => {
+    const userID = billingSelector?.user?.userID;
     if (auth.isLoggedIn) {
       const res = await post("subscription/checkout-session", {
         priceId: priceID,
@@ -68,6 +69,8 @@ const Pricing = () => {
       window.open(res?.data.session_url, "_self");
 
       dispatch(createStripeCheckoutSession(priceID));
+      await post("subscription/update-download-authority", { userID,curr_price_id: priceID });
+
     } else {
       setModalShow(true);
     }

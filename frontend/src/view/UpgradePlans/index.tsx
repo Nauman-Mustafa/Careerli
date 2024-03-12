@@ -84,13 +84,18 @@ const UpgradePlan = () => {
     });
 
   const muatateCheckoutPlan = async (priceID: string) => {
+    const userID = billingSelector?.user?.userID;
     const res = await post("subscription/mutate-subscription", { priceID });
     // console.log(res,"res")
     toast.success(res?.message);
+   
+
     setTimeout(() => {
       window.location.href = "/upgrade-plan";
     }, 800);
+     await post("subscription/update-download-authority", {userID, curr_price_id: priceID });
   };
+  
   const handleModalClose = () => setModalShow(false);
   return (
     <>

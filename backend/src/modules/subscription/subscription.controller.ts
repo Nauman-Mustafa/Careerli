@@ -54,7 +54,26 @@ export class SubscriptionController {
 
     return res.status(response.code).json(response);
   }
+  @Post('update-download-authority') // Endpoint route
+  async updateDownloadAuthority(@Req() req, @Res() res: Response) {
+    try {
+      // Extract necessary data from the request, if needed
+      const subscriptionData = {
+        userID: req.body.userID, // Assuming this is how you access user ID in your request
+        curr_price_id: req.body.curr_price_id // Assuming curr_price_id is sent in the request body
+      };
 
+      // Call your service function to update download authority
+      await this.subscriptionService.updateDownloadAuthority(subscriptionData);
+
+      // Respond with a success message or status code
+      return res.json({ status: 'success', message: 'Download authority updated successfully' });
+    } catch (error) {
+      // Handle errors appropriately
+      console.error('Error updating download authority:', error);
+      return res.status(500).json({ status: 'error', message: 'Failed to update download authority' });
+    }
+  }
   @UseGuards(JwtAuthGuard)
   @Post("update-payment-method")
   async updatePaymentMethod(
