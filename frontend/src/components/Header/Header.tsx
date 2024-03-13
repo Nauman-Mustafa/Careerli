@@ -224,46 +224,48 @@ const Header = () => {
                       <span>Upgrade to Pro</span>
                     </button>
                   ) : null}
+                </>
+              )}
+              {auth?.isLoggedIn && (
+                <div className="user-profile">
+                  <Dropdown align="end" onClick={(e) => e.stopPropagation()}>
+                    <Dropdown.Toggle
+                      id="dropdown-custom-components"
+                      className="down-arrow"
+                    >
+                      <figure>
+                        <Icon icon="ph:user-circle-light" />
+                      </figure>
 
-                  <div className="user-profile">
-                    <Dropdown align="end" onClick={(e) => e.stopPropagation()}>
-                      <Dropdown.Toggle
-                        id="dropdown-custom-components"
-                        className="down-arrow"
+                      <Icon icon="ph:caret-down" className="caret-down" />
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <button
+                        className="btn"
+                        onClick={() => navigate("/my-profile")}
                       >
-                        <figure>
-                          <Icon icon="ph:user-circle-light" />
-                        </figure>
+                        <Icon icon="ph:user-circle" />
 
-                        <Icon icon="ph:caret-down" className="caret-down" />
-                      </Dropdown.Toggle>
+                        <span>My Profile</span>
+                      </button>
 
-                      <Dropdown.Menu>
-                        <button
-                          className="btn"
-                          onClick={() => navigate("/my-profile")}
-                        >
-                          <Icon icon="ph:user-circle" />
+                      <button
+                        className="btn btn-linen"
+                        onClick={() => {
+                          dispatch(destroyLogin());
 
-                          <span>My Profile</span>
-                        </button>
+                          dispatch(destroyBilling());
 
-                        <button
-                          className="btn btn-linen"
-                          onClick={() => {
-                            dispatch(destroyLogin());
+                          navigate("/dashboard");
+                        }}
+                      >
+                        <Icon icon="ri:logout-box-line" />
 
-                            dispatch(destroyBilling());
+                        <span>Logout</span>
+                      </button>
 
-                            navigate("/dashboard");
-                          }}
-                        >
-                          <Icon icon="ri:logout-box-line" />
-
-                          <span>Logout</span>
-                        </button>
-
-                        {/* {billingSelector?.user?.curr_price_id ? (
+                      {/* {billingSelector?.user?.curr_price_id ? (
 
                           <button
 
@@ -282,10 +284,9 @@ const Header = () => {
                           </button>
 
                         ) : null} */}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                </>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
               )}
               {!auth?.isLoggedIn && (
                 <>
