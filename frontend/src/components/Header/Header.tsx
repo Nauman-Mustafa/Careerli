@@ -104,7 +104,6 @@ const Header = () => {
   const pathName = location.pathname.split("/")[2];
 
   const pathName2 = location.pathname.split("/")[1];
-
   return (
     <header className={scroll ? "header header-sticky" : "header"}>
       <div className="d-flex align-items-center justify-content-between container">
@@ -205,7 +204,7 @@ const Header = () => {
                 </button>
               ) : null}
 
-              {auth?.isLoggedIn ? (
+              {auth?.isLoggedIn && billingSelector?.user?.curr_price_id && (
                 <>
                   {filterData() ? (
                     <button
@@ -287,7 +286,8 @@ const Header = () => {
                     </Dropdown>
                   </div>
                 </>
-              ) : (
+              )}
+              {!auth?.isLoggedIn && (
                 <>
                   <button
                     className="btn btn-linen"

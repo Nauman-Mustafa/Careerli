@@ -12,6 +12,7 @@ import ClassicResumeTemlpate from "./ClassicResumeTemlpate";
 import ClassicResumeTemlpate11 from "./ClassicResumeTemlpate11";
 import ClassicResumeTemlpate7 from "./ClassicResumeTemlpate7";
 import ResumeCreativeTemplate from "./ResumeCreativeTemplate";
+import { toast } from "react-toastify";
 // import CreativeTemplate from "./creativeTemplate";
 
 const CreativeResumeTemplate = ({ docId }) => {
@@ -58,11 +59,15 @@ const CreativeResumeTemplate = ({ docId }) => {
     } else {
       if (docId !== "guestUser") {
         const res = await get("resume/generate/" + docId);
-        const link = document.createElement("a");
-        link.href = res["url"];
-        link.download = "MyResume.pdf";
-        link.click();
-        link.remove();
+        if(res.StatusCode===400|404|500){
+      toast.error(res.message);
+
+      const link = document.createElement("a");
+      link.href = res["url"];
+      link.download = "MyResume.pdf";
+      link.click();
+      link.remove();
+        }
       }
     }
   };
