@@ -15,7 +15,6 @@ import { ThemeContext } from "../../contexts/theme-context";
 import { destroyBilling, destroyLogin } from "../../store/action";
 import LoginModal from "../Login/LoginModal";
 import "./headerStyle.scss";
-
 const Header = () => {
   const param = useParams();
   const { response, post, get, loading, data: repos } = useFetch();
@@ -33,11 +32,14 @@ const Header = () => {
       { menuName: "Resume", to: "/dashboard" },
       { menuName: "Cover Letter", to: "/cover-letter" },
       {
-        menuName:
-          !billingSelector?.user?.curr_price_id && auth.isLoggedIn
-            ? "Pricing"
-            : null,
-        to: !billingSelector?.user?.curr_price_id ? "/pricing-plan" : "",
+        // Check if the user is logged in and doesn't have a current price ID
+        // menuIcon:
+        //   !billingSelector?.user?.curr_price_id && auth.isLoggedIn
+        //     ? svgIcons.pricing // Render the crown icon if conditions are met
+        //     : null,
+        // to: !billingSelector?.user?.curr_price_id
+        //   ? "/pricing-plan"
+        //   : "/upgrade-plan", // Link destination
       },
     ],
     [billingSelector]
@@ -48,14 +50,11 @@ const Header = () => {
       setScroll(window.scrollY > 80);
     });
   }, []);
-
   useEffect(() => {
     fetchConfig();
   }, []);
-
   const fetchConfig = async () => {
     const res = await get("subscription/stripe-config");
-
     setPricesData(res?.data?.prices);
   };
   const handleThemeChange = () => {
@@ -69,7 +68,6 @@ const Header = () => {
     );
   const pathName = location.pathname.split("/")[2];
   const pathName2 = location.pathname.split("/")[1];
-
   return (
     <header className={scroll ? "header header-sticky" : "header"}>
       <div className="d-flex align-items-center justify-content-between container">
@@ -109,29 +107,49 @@ const Header = () => {
             <div className={toggleActive ? "nav-menu active-menu" : "nav-menu"}>
               <ul>
                 {navMenu.map((item, i) => (
-                  <>
+                  <li key={`menu-item-${i}`}>
+                    {/* Render NavLink if menuName exists */}
                     {item.menuName && (
-                      <li key={`menu-item-${i}`}>
-                        <NavLink
-                          className={({ isActive }) =>
-                            isActive ? "active-item menu-item" : "menu-item"
-                          }
-                          to={item.to}
-                        >
-                          {item.menuName}
-                        </NavLink>
-                      </li>
+                      <NavLink
+                        className={({ isActive }) =>
+                          isActive ? "active-item menu-item" : "menu-item"
+                        }
+                        to={item.to}
+                      >
+                        {item.menuName}
+                      </NavLink>
                     )}
-                  </>
+                    {/* Render button with icon if menuIcon exists */}
+                    {/* {item.menuIcon && (
+                      <button
+                        className="btn btn-yellow"
+                        onClick={() => navigate(item.to)}
+                      >
+                        {item.menuIcon}
+                      </button>
+                    )} */}
+                  </li>
                 ))}
               </ul>
             </div>
             <div className="header-right">
+              {!billingSelector?.user?.curr_price_id && auth.isLoggedIn?
+                <button
+                  className="btn btn-yellow"
+                  onClick={() =>
+                    navigate(
+                      !billingSelector?.user?.curr_price_id
+                        ? "/pricing-plan"
+                        : "/upgrade-plan"
+                    )
+                  }
+                >
+                  {svgIcons.pricing}
+                </button>:null
+              }
               {auth?.isLoggedIn ? (
                 <>
-                  {filterData() &&
-                  filterData()[0]?.product?.name !== undefined &&
-                  filterData()[0]?.product?.name !== "Free" ? (
+                  {filterData() ? (
                     <button
                       className="btn btn-yellow"
                       onClick={() => navigate("/upgrade-plan")}
@@ -157,10 +175,8 @@ const Header = () => {
                         <figure>
                           <Icon icon="ph:user-circle-light" />
                         </figure>
-
                         <Icon icon="ph:caret-down" className="caret-down" />
                       </Dropdown.Toggle>
-
                       <Dropdown.Menu>
                         <button
                           className="btn"
@@ -230,5 +246,4 @@ const Header = () => {
     </header>
   );
 };
-
 export default Header;
