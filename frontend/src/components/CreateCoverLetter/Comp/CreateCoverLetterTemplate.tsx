@@ -50,11 +50,14 @@ const CreateCoverLetterTemplate = () => {
     } else {
       if (id !== "guestUser") {
         const res = await get("cover-letter/generate/" + id);
+        if(res.StatusCode===400|404|500){
+          toast.error(res.message);
         const link = document.createElement("a");
         link.href = res["url"];
         link.download = "MyResume.pdf";
         link.click();
         link.remove();
+        }
       }
     }
   };
