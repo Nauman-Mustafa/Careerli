@@ -125,22 +125,20 @@ const UserProfile = () => {
 
   // Create a new Date object using the timestamp
   var date = new Date(timestamp);
-  
+
   // Extract day, month, and year components
   var day = date.getDate();
   var month = date.getMonth() + 1; // Month starts from 0, so add 1 to get the correct month
   var year = date.getFullYear();
-  
+
   // Ensure that day and month are formatted with leading zeros if necessary
   //@ts-ignore
-  day = day < 10 ? '0' + day : day;
+  day = day < 10 ? "0" + day : day;
   //@ts-ignore
-  month = month < 10 ? '0' + month : month;
-  
-  // Format the date as dd-mm-yyyy
-  var formattedDate = day + '-' + month + '-' + year;
-  
+  month = month < 10 ? "0" + month : month;
 
+  // Format the date as dd-mm-yyyy
+  var formattedDate = day + "-" + month + "-" + year;
 
   function epochToJsDate(ts: any): String {
     return new Date(ts * 1000).toLocaleDateString("en-us", {
@@ -428,16 +426,14 @@ const UserProfile = () => {
                           <span>Cancel Plan</span>
                         )}
                       </div>
- 
+
                       {!subscription?.data?.canceled_at ? (
                         <p>
                           Once you Cancel your Plan, it cannot be undone. This
                           is permanent.
                         </p>
                       ) : (
-                        <p>
-                          you subscription is valid till {formattedDate}
-                        </p>
+                        <p>you subscription is valid till {formattedDate}</p>
                       )}
                     </div>
                     <div className="header-right">
@@ -473,7 +469,11 @@ const UserProfile = () => {
                       <div className="figure-icon">
                         <Icon icon="ph:repeat" />
                       </div>
-                      <h5>Subscription Renewal Date</h5>
+                      {subscription?.data?.canceled_at ? (
+                        <h5>Subscription End Date</h5>
+                      ) : (
+                        <h5>Subscription Renewal Date</h5>
+                      )}
                     </div>
                     <div className="header-right d-flex align-items-center">
                       <p>{epochToJsDate(periodEndDate)}.</p>

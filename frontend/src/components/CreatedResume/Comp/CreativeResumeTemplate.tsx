@@ -59,14 +59,14 @@ const CreativeResumeTemplate = ({ docId }) => {
     } else {
       if (docId !== "guestUser") {
         const res = await get("resume/generate/" + docId);
-        if(res.StatusCode===400|404|500){
-      toast.error(res.message);
-
-      const link = document.createElement("a");
-      link.href = res["url"];
-      link.download = "MyResume.pdf";
-      link.click();
-      link.remove();
+        if ((res.StatusCode === 400) | 404 | 500) {
+          toast.error(res.message);
+        } else {
+          const link = document.createElement("a");
+          link.href = res["url"];
+          link.download = "MyResume.pdf";
+          link.click();
+          link.remove();
         }
       }
     }

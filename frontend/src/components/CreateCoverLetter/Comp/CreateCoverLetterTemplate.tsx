@@ -50,13 +50,14 @@ const CreateCoverLetterTemplate = () => {
     } else {
       if (id !== "guestUser") {
         const res = await get("cover-letter/generate/" + id);
-        if(res.StatusCode===400|404|500){
+        if ((res.StatusCode === 400) | 404 | 500) {
           toast.error(res.message);
-        const link = document.createElement("a");
-        link.href = res["url"];
-        link.download = "MyResume.pdf";
-        link.click();
-        link.remove();
+        } else {
+          const link = document.createElement("a");
+          link.href = res["url"];
+          link.download = "MyResume.pdf";
+          link.click();
+          link.remove();
         }
       }
     }
@@ -130,8 +131,9 @@ const CreateCoverLetterTemplate = () => {
                   __html: data?.introduction?.opener,
                 }}
               />
-            ) : ""
-            }
+            ) : (
+              ""
+            )}
 
             {data?.body ? (
               <p
@@ -139,8 +141,9 @@ const CreateCoverLetterTemplate = () => {
                   __html: data?.body,
                 }}
               />
-            ) : ""
-            }
+            ) : (
+              ""
+            )}
 
             {data?.closing?.closingData ? (
               <p
@@ -148,7 +151,9 @@ const CreateCoverLetterTemplate = () => {
                   __html: data?.closing?.closingData,
                 }}
               />
-            ) : ""}
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

@@ -15,6 +15,8 @@ import { $coverLetter, $coverLetterStyle, $saveStatus } from "../../../services"
 import LoginModal from "../../Login/LoginModal";
 import FirstLatestCoverLetter from "./FirstLatestCoverLetter";
 import SecondLatestCoverLetter from "./SecondLatestCoverLetter";
+import { toast } from "react-toastify";
+
 // import CreativeCoverLetterTemplate from "../Comp/CreateCoverLetterTemplate";
 const CoverLetterSidebar = () => {
   const [activeAcademy, setActiveAcademy] = useState(false);
@@ -81,13 +83,16 @@ const CoverLetterSidebar = () => {
     } else {
       if (id !== "guestUser") {
         const res = await get("cover-letter/generate/" + id);
-        const link = document.createElement("a");
-        link.href = res["url"];
-        link.download = "MyResume.pdf";
-        link.click();
-        link.remove();
-      }
-    }
+        if ((res.StatusCode === 400) | 404 | 500) {
+          toast.error(res.message);
+        } else {
+          const link = document.createElement("a");
+          link.href = res["url"];
+          link.download = "MyResume.pdf";
+          link.click();
+          link.remove();
+        }
+      }}
   };
  
   return (
