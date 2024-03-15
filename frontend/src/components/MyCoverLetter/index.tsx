@@ -47,8 +47,6 @@ const MyCoverLetter = () => {
   });
 
   useEffect(() => {
-   
-
     fetchConfig();
     const handleClickOutside = (event: any) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -62,13 +60,13 @@ const MyCoverLetter = () => {
       window.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  useEffect(()=>{ fecthCoverLetter();},[pagination.page])
   useEffect(() => {
-    if(data){
-     
-      setResumeCount(prev => parseInt(prev) + parseInt(data?.length));
+    fecthCoverLetter();
+  }, [pagination.page]);
+  useEffect(() => {
+    if (data) {
+      setResumeCount((prev) => parseInt(prev) + parseInt(data?.length));
     }
-    
   }, [data]);
   const handleDDToggle = (index: any) => {
     setIsDDOpenIndex(index);
@@ -98,8 +96,10 @@ const MyCoverLetter = () => {
   };
 
   const fecthCoverLetter = async () => {
-    setLoader(true)
-    const res = await get(`cover-letter/my-all-cover-letter?page=${pagination.page}&limit=${pagination.limit}`);
+    setLoader(true);
+    const res = await get(
+      `cover-letter/my-all-cover-letter?page=${pagination.page}&limit=${pagination.limit}`
+    );
 
     setData(res?.data?.doc);
     setPagination({
@@ -107,7 +107,7 @@ const MyCoverLetter = () => {
       totalPages: res?.data?.totalPages,
       totalCount: res?.data?.totalCount,
     });
-    setLoader(false)
+    setLoader(false);
   };
   const deleteResume = async (id: any) => {
     const res = await deleteData(`cover-letter/delete/${id}`);
@@ -149,11 +149,15 @@ const MyCoverLetter = () => {
     } else {
       if (id !== "guestUser") {
         const res = await get("cover-letter/generate/" + id);
-        const link = document.createElement("a");
-        link.href = res["url"];
-        link.download = "MyResume.pdf";
-        link.click();
-        link.remove();
+        if (res.StatusCode === (400 || 404 || 500)) {
+          toast.error(res.message);
+        } else {
+          const link = document.createElement("a");
+          link.href = res["url"];
+          link.download = "MyCoverLetter.pdf";
+          link.click();
+          link.remove();
+        }
       }
     }
   };
@@ -212,76 +216,80 @@ const MyCoverLetter = () => {
               </div>
             </div>
             {data?.map((item: any, i: any) => {
-              const count = i+1+5 * (pagination.page - 1);
-              return(
-<div className="col-lg-4" key={i}>
-                <div
-                style={{cursor:"pointer"}}
-                  className="single-cover-letter-box"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(
-                      `/cover-letter/create-cover-letter?id=${item?._id}`
-                    );
-                  }}
-                >
-                  <div className="cover-letter-child">
-                    <div className="figure">
-                      <img
-                        src={
-                          item?.coverLetterType === "First Template"
-                            ? "/images/cover-letter-1.jpg"
-                            : item?.coverLetterType === "Second Template"
-                            ? "/images/cover-letter-2.jpg"
-                            : ""
-                        }
-                        alt="image not found"
-                      />
-                    </div>
-                    <div
-                      className="cover-letter-content-container"
-                      // onClick={(e) => {
-                      //   e.stopPropagation();
-                      // }}
-                    >
-                      <div className="">
-                        {editName === i ? (
-                          <div
-                            className="edit-template-name"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                            }}
-                          >
-                            <input
-                              type="text"
-                              defaultValue={item?.coverLetterTitle}
-                              onChange={(e) => setSectionTitle(e.target.value)}
-                            />
-                            <button
-                              className={
-                                checkName
-                                  ? "btn-action btn-edit"
-                                  : "btn-action btn-edit d-none"
-                              }
+              const count = i + 1 + 5 * (pagination.page - 1);
+              return (
+                <div className="col-lg-4" key={i}>
+                  <div
+                    style={{ cursor: "pointer" }}
+                    className="single-cover-letter-box"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(
+                        `/cover-letter/create-cover-letter?id=${item?._id}`
+                      );
+                    }}
+                  >
+                    <div className="cover-letter-child">
+                      <div className="figure">
+                        <img
+                          src={
+                            item?.coverLetterType === "First Template"
+                              ? "/images/cover-letter-1.jpg"
+                              : item?.coverLetterType === "Second Template"
+                              ? "/images/cover-letter-2.jpg"
+                              : ""
+                          }
+                          alt="image not found"
+                        />
+                      </div>
+                      <div
+                        className="cover-letter-content-container"
+                        // onClick={(e) => {
+                        //   e.stopPropagation();
+                        // }}
+                      >
+                        <div className="">
+                          {editName === i ? (
+                            <div
+                              className="edit-template-name"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                changeTitle(e, item?._id);
                               }}
                             >
-                              <Icon icon="charm:circle-tick" />
-                            </button>
-                          </div>
-                        ) : (
-                          <h4>{item?.coverLetterTitle} {count}</h4>
-                        )}
+                              <input
+                                type="text"
+                                defaultValue={item?.coverLetterTitle}
+                                onChange={(e) =>
+                                  setSectionTitle(e.target.value)
+                                }
+                              />
+                              <button
+                                className={
+                                  checkName
+                                    ? "btn-action btn-edit"
+                                    : "btn-action btn-edit d-none"
+                                }
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  changeTitle(e, item?._id);
+                                }}
+                              >
+                                <Icon icon="charm:circle-tick" />
+                              </button>
+                            </div>
+                          ) : (
+                            <h4>
+                              {item?.coverLetterTitle} {count}
+                            </h4>
+                          )}
 
-                        <p>{dateFormate(item?.updatedAt)} </p>
-                      </div>
+                          <p>{dateFormate(item?.updatedAt)} </p>
+                        </div>
 
-                      {/* <h4>{item?.userId?.firstName} Cover Letter</h4> */}
-                      {/* <p>{dateFormate(item?.updatedAt)} </p> */}
+                        {/* <h4>{item?.userId?.firstName} Cover Letter</h4> */}
+                        {/* <p>{dateFormate(item?.updatedAt)} </p> */}
 
-                      {/* <div className="action-buttons">
+                        {/* <div className="action-buttons">
                           <button
                             className="btn-action btn-edit"
                             onClick={(e) => {
@@ -339,119 +347,118 @@ const MyCoverLetter = () => {
                             </Dropdown.Menu>
                           </Dropdown>
                         </div> */}
-                      <div className="action-buttons">
-                        <button
-                          className="btn-action btn-edit"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(
-                              `/cover-letter/create-cover-letter?id=${item?._id}`
-                            );
-                          }}
-                        >
-                          <Icon icon="eva:edit-outline" />
-                        </button>
-                        <Dropdown
-                          align="end"
-                          show={isDDOpen && isDDOpenIndex === i}
-                          onToggle={() => {
-                            handleDDToggle(i);
-                          }}
-                          // onHide={() => handleDDClose()}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <Dropdown.Toggle
-                            id="dropdown-custom-components"
-                            className="btn-action btn-dropdown"
+                        <div className="action-buttons">
+                          <button
+                            className="btn-action btn-edit"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(
+                                `/cover-letter/create-cover-letter?id=${item?._id}`
+                              );
+                            }}
                           >
-                            <Icon icon="ph:dots-three-outline-vertical" />
-                          </Dropdown.Toggle>
-
-                          <Dropdown.Menu>
-                            <button
-                              className="btn btn-linen"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                downloadHandler(item?._id);
-                              }}
+                            <Icon icon="eva:edit-outline" />
+                          </button>
+                          <Dropdown
+                            align="end"
+                            show={isDDOpen && isDDOpenIndex === i}
+                            onToggle={() => {
+                              handleDDToggle(i);
+                            }}
+                            // onHide={() => handleDDClose()}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Dropdown.Toggle
+                              id="dropdown-custom-components"
+                              className="btn-action btn-dropdown"
                             >
-                              {loading ? (
-                                <Spinner animation="border" />
-                              ) : (
-                                <>
-                                  <Icon icon="eva:download-fill" />
-                                  <span>Download</span>
-                                </>
-                              )}
-                            </button>
-                            <ul>
-                              <li>
-                                <Link
-                                  to={`/cover-letter/customize-cover-letter?id=${item?._id}`}
-                                  className="dropdown-link"
-                                >
-                                  <Icon icon="ph:circles-four-bold" />
-                                  <span>Choose Template</span>
-                                </Link>
-                              </li>
-                              <li>
-                                <div
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setEditName(i);
-                                    setCheckName(true);
-                                    handleDDClose();
-                                  }}
-                                  className="dropdown-link"
-                                >
-                                  <Icon icon="mingcute:edit-3-line" />
-                                  <span>Rename</span>
-                                </div>
-                              </li>
-                              <li>
-                                <div
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    CreateCoverLeter(item);
-                                    handleDDClose();
-                                  }}
-                                  className="dropdown-link"
-                                >
-                                  <Icon icon="ph:copy" />
-                                  <span>Duplicate </span>
-                                </div>
-                              </li>
-                              <li>
-                                <div
-                                  className="delete dropdown-link"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    deleteResume(item?._id);
-                                  }}
-                                >
-                                  <Icon icon="gg:trash" />
-                                  <span>Delete </span>
-                                </div>
-                              </li>
-                            </ul>
-                          </Dropdown.Menu>
-                        </Dropdown>
+                              <Icon icon="ph:dots-three-outline-vertical" />
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                              <button
+                                className="btn btn-linen"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  downloadHandler(item?._id);
+                                }}
+                              >
+                                {loading ? (
+                                  <Spinner animation="border" />
+                                ) : (
+                                  <>
+                                    <Icon icon="eva:download-fill" />
+                                    <span>Download</span>
+                                  </>
+                                )}
+                              </button>
+                              <ul>
+                                <li>
+                                  <Link
+                                    to={`/cover-letter/customize-cover-letter?id=${item?._id}`}
+                                    className="dropdown-link"
+                                  >
+                                    <Icon icon="ph:circles-four-bold" />
+                                    <span>Choose Template</span>
+                                  </Link>
+                                </li>
+                                <li>
+                                  <div
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setEditName(i);
+                                      setCheckName(true);
+                                      handleDDClose();
+                                    }}
+                                    className="dropdown-link"
+                                  >
+                                    <Icon icon="mingcute:edit-3-line" />
+                                    <span>Rename</span>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      CreateCoverLeter(item);
+                                      handleDDClose();
+                                    }}
+                                    className="dropdown-link"
+                                  >
+                                    <Icon icon="ph:copy" />
+                                    <span>Duplicate </span>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div
+                                    className="delete dropdown-link"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      deleteResume(item?._id);
+                                    }}
+                                  >
+                                    <Icon icon="gg:trash" />
+                                    <span>Delete </span>
+                                  </div>
+                                </li>
+                              </ul>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              )
-              
-})}
+              );
+            })}
           </div>
         </div>
         <Pagination
-            currentPage={pagination.page}
-            totalPages={pagination.totalPages}
-            onPageChange={handlePageChange}
-            Loader={Loader}
-          />
+          currentPage={pagination.page}
+          totalPages={pagination.totalPages}
+          onPageChange={handlePageChange}
+          Loader={Loader}
+        />
       </div>
     </>
   );

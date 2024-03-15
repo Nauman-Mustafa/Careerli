@@ -287,13 +287,13 @@ export class SubscriptionsService extends BaseService {
       const subscriptionRepo = await this.subscriptionRepo.findByIdAndUpdate(
         subscription._id,
         {
-          stripe_checkout_session_id: "",
-          stripe_checkout_session_status: false,
+          // stripe_checkout_session_id: "",
+          // stripe_checkout_session_status: false,
           // curr_price_id: "",
-          billing_table_details: [],
-          invoice_pdf: "",
-          payment_method: "",
-          payment_method_details: {},
+          // billing_table_details: [],
+          // invoice_pdf: "",
+          // payment_method: "",
+          // payment_method_details: {},
           canceled_at: cancel_subscription.current_period_end,
         }
       );
