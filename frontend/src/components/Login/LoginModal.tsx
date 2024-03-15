@@ -12,7 +12,7 @@ import * as yup from "yup";
 import forgetpasswordImage from "../../assets/images/forgetpassword.png";
 import loginImage from "../../assets/images/login.png";
 import signupImage from "../../assets/images/signup.png";
-import { saveLogin } from "../../store/action";
+import { saveLogin, userData } from "../../store/action";
 import { ValidationError } from "../form/validation.component";
 const schema = yup.object().shape({
   identifier: yup.string().email().label("Email or Username").required(),
@@ -41,7 +41,6 @@ const LoginModal = ({ showModal, showModalHandler }: any) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-   
     setPathName(window.location.pathname);
   }, []);
 
@@ -72,13 +71,20 @@ const LoginModal = ({ showModal, showModalHandler }: any) => {
   });
   const auth: any = useSelector((store: any) => store.auth);
   const onSubmit = async (value: any) => {
-   
+    console.log("vale is", value);
+
     const res = await post("auth/login", value);
     if (response.ok) {
+      const identifier = value.identifier;
+      const pass = value.password;
+      console.log("email", identifier, "pass", pass);
+      console.log("res.data is", res.data);
+
       dispatch(saveLogin(res.data));
+      dispatch(userData(identifier, pass));
       toast.success("Account logged in successfully!");
-  
-      window.location.reload();
+
+      // window.location.reload();
 
       showModalHandler(false);
     } else {
@@ -97,12 +103,11 @@ const LoginModal = ({ showModal, showModalHandler }: any) => {
 
   const history = useNavigate();
   const onSubmit2 = async (value: any) => {
-   
     const res = await post("auth/signup", value);
 
     if (response.ok) {
       toast("Account registered successfully!");
-     
+
       showModalHandler(false);
       setShowAccount({
         loginAccount: true,
@@ -141,7 +146,6 @@ const LoginModal = ({ showModal, showModalHandler }: any) => {
           toast.error(response.data.message);
       }
     }
-  
   };
   const LoginGoogle = () => {
     localStorage.setItem("location", JSON.stringify(pathName));

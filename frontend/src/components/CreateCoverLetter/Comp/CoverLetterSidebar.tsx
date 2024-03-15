@@ -11,10 +11,15 @@ import careerlyImage from "../../../assets/images/careerly.svg";
 import gettingStartedImage from "../../../assets/images/getting-started.svg";
 import reumeGuideImage from "../../../assets/images/resume-guide.svg";
 import videoGuideImage from "../../../assets/images/video-guide.svg";
-import { $coverLetter, $coverLetterStyle, $saveStatus } from "../../../services";
+import {
+  $coverLetter,
+  $coverLetterStyle,
+  $saveStatus,
+} from "../../../services";
 import LoginModal from "../../Login/LoginModal";
 import FirstLatestCoverLetter from "./FirstLatestCoverLetter";
 import SecondLatestCoverLetter from "./SecondLatestCoverLetter";
+import { toast } from "react-toastify";
 // import CreativeCoverLetterTemplate from "../Comp/CreateCoverLetterTemplate";
 const CoverLetterSidebar = () => {
   const [activeAcademy, setActiveAcademy] = useState(false);
@@ -43,17 +48,16 @@ const CoverLetterSidebar = () => {
       $sub.unsubscribe();
     };
   }, []);
- 
+
   useEffect(() => {
     // setDocId(window.location.href.split("=")[1]);
-   
+
     const sub2$ = $saveStatus.subscribe((v: any) => {
-     console.log(v,"saving status");
-     setCheck(v)
+      console.log(v, "saving status");
+      setCheck(v);
     });
-    
+
     return () => {
-     
       sub2$.unsubscribe();
     };
   }, []);
@@ -81,15 +85,19 @@ const CoverLetterSidebar = () => {
     } else {
       if (id !== "guestUser") {
         const res = await get("cover-letter/generate/" + id);
-        const link = document.createElement("a");
-        link.href = res["url"];
-        link.download = "MyResume.pdf";
-        link.click();
-        link.remove();
+        if ((res.StatusCode === 400) | 404 | 500) {
+          toast.error(res.message);
+        } else {
+          const link = document.createElement("a");
+          link.href = res["url"];
+          link.download = "MyResume.pdf";
+          link.click();
+          link.remove();
+        }
       }
     }
   };
- 
+
   return (
     <>
       <div className="created-resume">
