@@ -16,8 +16,10 @@ import { TempType } from "../../enums/template.enum";
 import { getDataFromLocalDB, sectionListData } from "../../services";
 import ResumeStyles from "./Components/ResumeStyles";
 import "./editTemplateStyle.scss";
+import star from "../../assets/images/star.png";
 
-const CustomizeTemplate = () => {
+const CustomizeTemplate = (userData) => {
+  console.log(userData?.userData?.roles);
   const resumeData = CVData;
   const [dashboardResume, setDashboardResume] = useState([...resumeData]);
   const [selectedImg, setSelectedImg] = useState(CreativeTemplate);
@@ -175,6 +177,7 @@ const CustomizeTemplate = () => {
     }
   };
   const changeTemplate = async (name: any, category: any, imagePath: any) => {
+    console.log({ name, category, imagePath });
     setSelectedImg(imagePath);
     setTemplate(name);
     if (auth.isLoggedIn) {
@@ -263,31 +266,53 @@ const CustomizeTemplate = () => {
             </div>
             <div className="resumeTemplates">
               <div className="row">
-                {dashboardResume.map((item, i) => (
-                  <div
-                    className="col-6"
-                    key={i}
-                    onClick={() => {
-                      changeTemplate(item.name, item.category, item.imagePath);
-                      setCategory(item.category);
-                    }}
-                  >
-                    <div className="single-template-wrapper">
-                      <div
-                        className={`single-template ${
-                          item?.name === template ? "activeTemp" : ""
-                        }`}
-                      >
-                        <figure>
-                          <img src={item?.imagePath} alt={item.name} />
-                        </figure>
-                        <div className="template-content">
-                          <p>{item.name}</p>
+                {dashboardResume.map((item, i) => {
+                  console.log({ item });
+                  return (
+                    <div
+                      className="col-6"
+                      key={i}
+                      onClick={
+                        item.category === "creative" &&
+                        userData?.userData?.roles[0] == "Free Member"
+                          ? null
+                          : () => {
+                              changeTemplate(
+                                item.name,
+                                item.category,
+                                item.imagePath
+                              );
+                              setCategory(item.category);
+                            }
+                      }
+                    >
+                      <div className="single-template-wrapper">
+                        <div
+                          className={`single-template ${
+                            item?.name === template ? "activeTemp" : ""
+                          }`}
+                        >
+                          <figure>
+                            {item.category === "creative" &&
+                            userData?.userData?.roles[0] == "Free Member" ? (
+                              <img
+                                style={{ width: "25px", float: "right" }}
+                                src={star}
+                                alt=""
+                              />
+                            ) : (
+                              ""
+                            )}
+                            <img src={item?.imagePath} alt={item.name} />
+                          </figure>
+                          <div className="template-content">
+                            <p>{item.name}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -310,7 +335,7 @@ const CustomizeTemplate = () => {
               activeTab === "Styling" ? "" : "display-none"
             }`}
           >
-            <ResumeStyles />
+            <ResumeStyles userData={userData}/>
           </div>
         </div>
       </div>

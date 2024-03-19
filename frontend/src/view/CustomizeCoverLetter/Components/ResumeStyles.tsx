@@ -69,7 +69,7 @@ const ColorOnChange = ({ color, background, styleData }) => {
     </div>
   );
 };
-const ResumeStyles = () => {
+const ResumeStyles = ({userData}) => {
   const { response, post, loading, get, data: repos, put } = useFetch();
   const [resetloader, setResetLoader] = useState(false);
   const auth: any = useSelector((store: any) => store.auth);
@@ -155,6 +155,11 @@ const ResumeStyles = () => {
             <option>'Poppins', sans-serif</option>
             <option>"Satoshi"</option>
             <option>'Montserrat', sans-serif</option>
+            <option disabled ={userData?.userData?.roles == "Free Member"}>'Arial'</option>
+            <option disabled={userData?.userData?.roles == "Free Member"}>'Courier'</option>
+            <option disabled={userData?.userData?.roles == "Free Member"}>'Monaco'</option>
+            <option disabled={userData?.userData?.roles == "Free Member"}>'Calibri'</option>
+            <option disabled={userData?.userData?.roles == "Free Member"}>'Fantacy'</option>
           </select>
         </div>
         <div className="row">
