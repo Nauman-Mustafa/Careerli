@@ -11,7 +11,7 @@ import { ValidationError } from "../../components/form/validation.component";
 import Header from "../../components/Header/Header";
 import { saveProfile, updateSessionStatus } from "../../store/action";
 import StripePaymentMethodForm from "../setting/StripePaymentMethodForm";
-import "./profileStyle.scss";
+import "./profileStyle.scss";CustomizeCoverLetter
 const schema = yup.object().shape({
   firstName: yup.string().label("First name").required(),
   lastName: yup.string().label("Last name").required(),
@@ -469,10 +469,17 @@ const UserProfile = () => {
                       <div className="figure-icon">
                         <Icon icon="ph:repeat" />
                       </div>
+
                       {subscription?.data?.canceled_at ? (
                         <h5>Subscription End Date</h5>
                       ) : (
                         <h5>Subscription Renewal Date</h5>
+
+                      {!billingSelector?.user?.stripe_checkout_session_id ? (
+                        <h5>Subscription Renewal Date</h5>
+                      ) : (
+                        <h5>Subscription Expiry Date</h5>
+
                       )}
                     </div>
                     <div className="header-right d-flex align-items-center">

@@ -56,6 +56,7 @@ export class AuthService {
   // }
   async login(user: any) {
     const userID = user._id;
+    // console.log("user is", user);
 
     try {
       // Wait for the promise to resolve

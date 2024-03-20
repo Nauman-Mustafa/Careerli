@@ -45,6 +45,8 @@ export class AuthController {
   ) {
     try {
       const response = await this.authService.login(req.user);
+      // console.log("request is", req);
+
       return res.json({
         status: "success",
         message: "Successfully LoggedIn",

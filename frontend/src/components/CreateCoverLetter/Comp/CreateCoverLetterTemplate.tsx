@@ -56,6 +56,9 @@ const CreateCoverLetterTemplate = () => {
           const link = document.createElement("a");
           link.href = res["url"];
           link.download = "MyResume.pdf";
+
+          link.download = "MyCoverLetter.pdf";
+
           link.click();
           link.remove();
         }

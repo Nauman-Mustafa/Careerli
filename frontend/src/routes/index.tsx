@@ -40,6 +40,8 @@ export const MainRoutes = () => {
   const { response, get, loading, data: repos } = useFetch();
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log("auth is", auth);
+
     if (auth.access_token) fetchMe();
   }, []);
 
