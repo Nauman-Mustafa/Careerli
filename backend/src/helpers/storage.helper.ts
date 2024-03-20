@@ -18,7 +18,6 @@ class UploadService {
       Bucket: bucket,
       Key: String(name),
       Body: file,
-    
     };
     return new Promise((resolve, reject) => {
       s3.upload(params, (err, data) => {
@@ -36,7 +35,6 @@ class UploadService {
       Bucket: bucket,
       Key: objectName,
       Body: file,
-     
     };
     return await s3.putObject(params).promise();
     return new Promise((resolve, reject) => {
@@ -55,7 +53,7 @@ class UploadService {
     const s3 = this.getS3();
     const params = {
       Bucket: bucketS3,
-      Key: privateUrl.replace("https://careerli-prod.s3.amazonaws.com/", ""),
+      Key: privateUrl.replace("https://abdulbasit7886.s3.amazonaws.com/", ""),
     };
 
     return new Promise((resolve, reject) => {

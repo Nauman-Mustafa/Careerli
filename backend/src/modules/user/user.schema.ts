@@ -34,6 +34,10 @@ const UserSchema = new Schema(
       required: true,
       unique: true,
     },
+    aiCredits: {
+      type: Number,
+      default: 0,
+    },
     count: {
       downloads: {
         type: Number,

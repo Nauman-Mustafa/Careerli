@@ -61,8 +61,8 @@ export class ResumeService extends BaseService {
   async generatePara(body: any, id: string) {
     try {
       const response: any = await axios.post(`${this.BASE_URL}`, body);
-console.log(response,"response")
-      if (!response || response?.data?.output?.statusCode==429) {
+      console.log(response, "response");
+      if (!response || response?.data?.output?.statusCode == 429) {
         return {
           failed: true,
           code: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -230,11 +230,13 @@ console.log(response,"response")
       };
     }
   }
-  async getMyAllResume(userId: any,condition?: {}, page = 1, limit = 5) {
+  async getMyAllResume(userId: any, condition?: {}, page = 1, limit = 5) {
     try {
       const skip = (page - 1) * limit;
-    const totalCount = await this.resumeRepository.countDocuments({ userId: userId });
-    const totalPages = Math.ceil(totalCount / limit);
+      const totalCount = await this.resumeRepository.countDocuments({
+        userId: userId,
+      });
+      const totalPages = Math.ceil(totalCount / limit);
       const user = await this.userService.findByID(userId);
       if (!user)
         return {
@@ -245,7 +247,9 @@ console.log(response,"response")
         };
       const doc = await this.resumeRepository
         .find({ userId: userId })
-        .populate("userId").sort({createdAt:-1}).skip(skip)
+        .populate("userId")
+        .sort({ createdAt: -1 })
+        .skip(skip)
         .limit(limit);
       if (!doc)
         return {
@@ -259,10 +263,7 @@ console.log(response,"response")
         failed: false,
         code: HttpStatus.OK,
         message: "My Resumes",
-        data: {doc, page,
-          limit,
-          totalPages,
-          totalCount,},
+        data: { doc, page, limit, totalPages, totalCount },
       };
     } catch (e: any) {
       const error: Error = e;
@@ -343,7 +344,9 @@ console.log(response,"response")
 
     let filename = `${v4()}.pdf`;
     await uploadService.uploadPdf(filename, buffer);
-    const resp= await uploadService.getS3Data(`https://careerli-prod.s3.amazonaws.com/${filename}`)
+    const resp = await uploadService.getS3Data(
+      `https://careerli.s3.amazonaws.com/${filename}`
+    );
     // const resp = `https://careerli.s3.amazonaws.com/${filename}`;
     return {
       url: resp,
@@ -373,8 +376,8 @@ console.log(response,"response")
       };
     }
 
-    const data :any= await uploadService.upload(file.buffer, `${v4()}`);
-    const resp= await uploadService.getS3Data(data?.Location)
+    const data: any = await uploadService.upload(file.buffer, `${v4()}`);
+    const resp = await uploadService.getS3Data(data?.Location);
     // save new file path & type in database
     const updatedDoc = await this.resumeRepository.findByIdAndUpdate(
       { _id: id },

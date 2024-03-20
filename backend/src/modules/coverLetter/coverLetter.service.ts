@@ -143,11 +143,13 @@ export class DocumentsService extends BaseService {
       };
     }
   }
-  async getMyAllCoverLetter(userId: any,condition?: {}, page = 1, limit = 5) {
+  async getMyAllCoverLetter(userId: any, condition?: {}, page = 1, limit = 5) {
     try {
       const skip = (page - 1) * limit;
-    const totalCount = await this.coverLetterRepository.countDocuments({ userId: userId });
-    const totalPages = Math.ceil(totalCount / limit);
+      const totalCount = await this.coverLetterRepository.countDocuments({
+        userId: userId,
+      });
+      const totalPages = Math.ceil(totalCount / limit);
       const user = await this.userService.findByID(userId);
       if (!user)
         return {
@@ -158,7 +160,9 @@ export class DocumentsService extends BaseService {
         };
       const doc = await this.coverLetterRepository
         .find({ userId: userId })
-        .populate("userId").sort({createdAt:-1}).skip(skip)
+        .populate("userId")
+        .sort({ createdAt: -1 })
+        .skip(skip)
         .limit(limit);
       if (!doc)
         return {
@@ -172,10 +176,7 @@ export class DocumentsService extends BaseService {
         failed: false,
         code: HttpStatus.OK,
         message: "My Cover Letter",
-        data: {doc, page,
-          limit,
-          totalPages,
-          totalCount,},
+        data: { doc, page, limit, totalPages, totalCount },
       };
     } catch (e: any) {
       const error: Error = e;
@@ -215,7 +216,7 @@ export class DocumentsService extends BaseService {
     await uploadService.uploadPdf(filename, buffer);
     // const resp = `https://careerli.s3.amazonaws.com/${filename}`;
     const resp = await uploadService.getS3Data(
-      `https://careerli-prod.s3.amazonaws.com/${filename}`
+      `https://aws-s3-bucket-careerli.s3.amazonaws.com/${filename}`
     );
     return {
       url: resp,

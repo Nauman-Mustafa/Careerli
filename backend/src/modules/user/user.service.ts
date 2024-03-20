@@ -101,4 +101,14 @@ export class UserService extends BaseService {
       { password: body.password, emailVerified: true }
     );
   }
+
+  async getAllUsers(): Promise<IUserDocument[]> {
+    return this.userRepository.find().exec();
+  }
+
+  async updateUserRole(userId: string, newRole: string): Promise<void> {
+    await this.userRepository
+      .updateOne({ _id: userId }, { roles: ["Free Member"] })
+      .exec();
+  }
 }

@@ -73,7 +73,7 @@ export class CoverLetterController {
   async generatePdf(@Req() req, @Res() res, @Body() info: any, @Param() param) {
     const id = param?.id;
     console.log("req is", req);
-    if (req.user.role === "Free Member" && req.user.count.downloads === 0) {
+    if (req.user.role === "Free Member" && req.user.count.downloads === 4) {
       return res.status(400).json({
         message:
           "You have reached the limit of downloads for a Free Member. Please buy a subscription to enjoy more downloads.",
@@ -81,7 +81,7 @@ export class CoverLetterController {
       });
     }
     const response = await this.documentsService.downloadPdf(id);
-    console.log(response);
+    console.log("res", response);
     // const filePath = path.join(process.cwd(), `docs/${response.fileName}.pdf`);
     // if (filePath) {
     //   const data = readFileSync(filePath);

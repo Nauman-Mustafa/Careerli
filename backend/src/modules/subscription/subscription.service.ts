@@ -282,7 +282,10 @@ export class SubscriptionsService extends BaseService {
         }
       );
 
-      console.log("cancel sub is", cancel_subscription);
+      console.log("cancel sub is", cancel_subscription.cancel_at);
+
+      // const cancelDate = new Date(cancel_subscription.cancel_at * 1000);
+      // console.log("cancel sub in date is", cancelDate);
 
       const subscriptionRepo = await this.subscriptionRepo.findByIdAndUpdate(
         subscription._id,
@@ -294,7 +297,7 @@ export class SubscriptionsService extends BaseService {
           // invoice_pdf: "",
           // payment_method: "",
           // payment_method_details: {},
-          canceled_at: cancel_subscription.current_period_end,
+          canceled_at: cancel_subscription.cancel_at,
         }
       );
 
@@ -480,7 +483,8 @@ export class SubscriptionsService extends BaseService {
       const event: any = this.stripeService.webhooks.constructEvent(
         body,
         sig,
-        process.env.STRIPE_WEBHOOK_SECRET_KEY
+        "we_1Ow5mmICzm4qoSEDy0QVr3cF"
+        // process.env.STRIPE_WEBHOOK_SECRET_KEY
       );
 
       const data = event.data.object;
@@ -756,5 +760,13 @@ export class SubscriptionsService extends BaseService {
     } catch (error) {
       console.log("error is", error);
     }
+  }
+
+  async getSubscription(
+    userId: string
+  ): Promise<ISubscriptionSchema | undefined> {
+    // Implement logic to fetch subscription data for the user with the given userId
+    // Example: Assuming you have a subscriptions collection with a field 'userId'
+    return this.subscriptionRepo.findOne({ userId }).exec();
   }
 }
