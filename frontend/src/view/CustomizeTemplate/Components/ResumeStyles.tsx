@@ -70,7 +70,8 @@ const ColorOnChange = ({ color, background, styleData }) => {
     </div>
   );
 };
-const ResumeStyles = () => {
+const ResumeStyles = ({userData}) => {
+  console.log(userData?.userData?.roles)
   const { response, post, loading, get, data: repos, put } = useFetch();
   const auth: any = useSelector((store: any) => store.auth);
   const [docId, setDocId] = useState("");
@@ -155,6 +156,12 @@ const ResumeStyles = () => {
             <option>'Poppins', sans-serif</option>
             <option>"Satoshi"</option>
             <option>'Montserrat', sans-serif</option>
+            <option disabled ={userData?.userData?.roles == "Free Member"}>'Arial'</option>
+            <option disabled={userData?.userData?.roles == "Free Member"}>'Courier'</option>
+            <option disabled={userData?.userData?.roles == "Free Member"}>'Monaco'</option>
+            <option disabled={userData?.userData?.roles == "Free Member"}>'Calibri'</option>
+            <option disabled={userData?.userData?.roles == "Free Member"}>'Fantacy'</option>
+
           </select>
         </div>
         <div className="row">
@@ -238,10 +245,7 @@ const ResumeStyles = () => {
         />
       </div>
       <div className="d-flex justify-content-center mt-4 mb-2 w-100">
-        <button
-          className="btn btn-yellow me-2"
-          onClick={resetToDefault}
-        >
+        <button className="btn btn-yellow me-2" onClick={resetToDefault}>
           {resetloader ? <Spinner animation="border" /> : "Reset Default"}
         </button>
         <button className="btn btn-yellow" onClick={() => handleStyleChange()}>

@@ -20,6 +20,7 @@ import LoginModal from "../../Login/LoginModal";
 import FirstLatestCoverLetter from "./FirstLatestCoverLetter";
 import SecondLatestCoverLetter from "./SecondLatestCoverLetter";
 import { toast } from "react-toastify";
+
 // import CreativeCoverLetterTemplate from "../Comp/CreateCoverLetterTemplate";
 const CoverLetterSidebar = () => {
   const [activeAcademy, setActiveAcademy] = useState(false);
@@ -94,8 +95,11 @@ const CoverLetterSidebar = () => {
           link.click();
           link.remove();
         }
+
+      }}
       }
     }
+
   };
 
   return (
