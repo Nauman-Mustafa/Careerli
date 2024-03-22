@@ -8,6 +8,7 @@ import { CVData } from "../Docments/data";
 import LoginModal from "../Login/LoginModal";
 import TopContent from "../TopContent/TopContent";
 import "./templateStyle.scss";
+import star from "../../assets/images/star.png";
 
 const ResumeTemplate = () => {
   const resumeData = CVData;
@@ -146,15 +147,24 @@ const ResumeTemplate = () => {
                   <div className="single-template-wrapper" key={i}>
                     <div className="single-template">
                       <figure>
+                        {item.category === "creative" && (
+                          <img
+                            style={{ width: "25px", float: "right" }}
+                            src={star}
+                            alt=""
+                          />
+                        )}
                         <img src={item?.imagePath} alt={item} />
                         <div
                           className="overlay"
                           // onClick={(e) => handleSubmit(item?.document_type, e)}
-                          onClick={(e) =>
+                          onClick={(e) =>{
+                            item.category === "creative" ? null:
                             handleSubmited(item?.document_type, item?.name, e)
                           }
+                          }
                         >
-                          <div className="btn btn-linen">Use Template</div>
+                          <div className="btn btn-linen">{item.category === "creative"?"Premium":"Use Template"}</div>
                         </div>
                       </figure>
                       <div className="template-content">

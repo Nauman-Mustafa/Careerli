@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import { useEffect, useMemo, useState } from "react";
 import { Nav } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useFetch from "use-http";
 import CreativeTemplate from "../../assets/images/CreativeTemplate.png";
 import ClassicResumeTemlpate from "../../components/CreatedResume/Comp/ClassicResumeTemlpate";
@@ -20,6 +20,8 @@ import star from "../../assets/images/star.png";
 
 const CustomizeTemplate = (userData) => {
   console.log(userData?.userData?.roles);
+  const [searchParams] = useSearchParams();
+  const roleName = searchParams.get("id");
   const resumeData = CVData;
   const [dashboardResume, setDashboardResume] = useState([...resumeData]);
   const [selectedImg, setSelectedImg] = useState(CreativeTemplate);
@@ -32,7 +34,7 @@ const CustomizeTemplate = (userData) => {
   const auth: any = useSelector((store: any) => store.auth);
   const [data, setData] = useState<any>({});
   const navigate = useNavigate();
-
+  console.log(roleName, "sasas");
   useEffect(() => {
     setDocId(window.location.href.split("=")[1]);
   }, [docId]);
@@ -274,7 +276,8 @@ const CustomizeTemplate = (userData) => {
                       key={i}
                       onClick={
                         item.category === "creative" &&
-                        userData?.userData?.roles[0] == "Free Member"
+                        (userData?.userData?.roles[0] == "Free Member" ||
+                          roleName === "guestUser")
                           ? null
                           : () => {
                               changeTemplate(
@@ -294,7 +297,8 @@ const CustomizeTemplate = (userData) => {
                         >
                           <figure>
                             {item.category === "creative" &&
-                            userData?.userData?.roles[0] == "Free Member" ? (
+                            (userData?.userData?.roles[0] == "Free Member" ||
+                              roleName === "guestUser") ? (
                               <img
                                 style={{ width: "25px", float: "right" }}
                                 src={star}
@@ -335,7 +339,7 @@ const CustomizeTemplate = (userData) => {
               activeTab === "Styling" ? "" : "display-none"
             }`}
           >
-            <ResumeStyles userData={userData}/>
+            <ResumeStyles userData={userData} />
           </div>
         </div>
       </div>
