@@ -39,7 +39,7 @@ require("dotenv").config({ path: envPath });
     SubscriptionModule,
     ScheduleModule.forRoot(),
     ServeStaticModule.forRoot({
-      rootPath: join(""),
+      rootPath: join("public"),
     }),
     MailerModule.forRoot({
       transport: {
