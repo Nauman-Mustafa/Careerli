@@ -95,12 +95,9 @@ const CoverLetterSidebar = () => {
           link.click();
           link.remove();
         }
-
-      }}
       }
     }
-
-  };
+  }
 
   return (
     <>

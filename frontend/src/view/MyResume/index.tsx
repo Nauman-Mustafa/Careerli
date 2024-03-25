@@ -234,7 +234,7 @@ const MyResume = () => {
                   <h2>Welcome back,</h2>
                   <button
                     className="btn btn-yellow"
-                    onClick={(e) => handleSubmit("Template 1", "creative", e)}
+                    onClick={(e) => handleSubmit("Template 2", "creative", e)}
                   >
                     <Icon icon="akar-icons:circle-plus" />
                     <span>Create New Resume</span>

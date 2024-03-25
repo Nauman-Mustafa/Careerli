@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 import { useEffect, useMemo, useState } from "react";
 import { Nav } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useFetch from "use-http";
 import firstCover from "../../assets/images/firstCover.jpg";
 import secondCover from "../../assets/images/secondCoverImage.jpg";
@@ -29,6 +29,8 @@ const resumeTemplate = [
 ];
 
 const CustomizeCoverLetter = (userData) => {
+  const [searchParams] = useSearchParams();
+  const roleName = searchParams.get("id");
   const [activeTab, setActiveTab] = useState("Template");
   const [dashboardResume, setDashboardResume] = useState([...resumeTemplate]);
   const [selectedImg, setSelectedImg] = useState(secondCover);
@@ -181,7 +183,8 @@ const CustomizeCoverLetter = (userData) => {
                   // onClick={() => changeTemplate(item.name, item.imagePath)}
                   onClick={
                     item.category === "creative" &&
-                    userData?.userData?.roles[0] == "Free Member"
+                    (userData?.userData?.roles[0] == "Free Member" ||
+                      roleName === "guestUser")
                       ? null
                       : () => {
                           changeTemplate(item.name, item.imagePath);
@@ -196,7 +199,8 @@ const CustomizeCoverLetter = (userData) => {
                     >
                       <figure>
                         {item.category === "creative" &&
-                        userData?.userData?.roles[0] == "Free Member" ? (
+                        (userData?.userData?.roles[0] == "Free Member" ||
+                          roleName === "guestUser") ? (
                           <img
                             style={{ width: "25px", float: "right" }}
                             src={star}
@@ -251,7 +255,7 @@ const CustomizeCoverLetter = (userData) => {
             activeTab === "Styling" ? "" : "display-none"
           }`}
         >
-          <ResumeStyles userData={userData}/>
+          <ResumeStyles userData={userData} />
         </div>
       </div>
     </div>
