@@ -8,6 +8,8 @@ export class SchedulerController {
   @Post("start")
   async startScheduler() {
     try {
+      console.log("hehre");
+
       await this.schedulerService.checkSubscriptionStatus();
       return { message: "Scheduler started successfully" };
     } catch (error) {

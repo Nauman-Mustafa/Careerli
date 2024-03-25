@@ -19,6 +19,8 @@ import { ResumeModule } from "./modules/resume";
 import { SubscriptionModule } from "./modules/subscription/subscription.module";
 import { ToolsModule } from "./modules/tools/tools.module";
 import { UserModule } from "./modules/user/user.module";
+import { ScheduleModule } from "@nestjs/schedule";
+// import { SchedulerModule } from "./modules/scheduler";
 
 const envPath = join(__dirname, "..", ".env");
 require("dotenv").config({ path: envPath });
@@ -35,8 +37,9 @@ require("dotenv").config({ path: envPath });
     UserModule,
     ToolsModule,
     SubscriptionModule,
+    ScheduleModule.forRoot(),
     ServeStaticModule.forRoot({
-      rootPath: join("public"),
+      rootPath: join(""),
     }),
     MailerModule.forRoot({
       transport: {

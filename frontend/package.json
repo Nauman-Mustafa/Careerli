@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start:dev": "copy .env.dev .env && vite --mode development",
+    "start:dev": "cp .env.dev .env && vite --mode development",
     "start:prod": "cp .env.prod .env && vite --mode development",
     "build": "cp .env.prod .env && vite build --mode production",
     "build:prod": "cp .env.prod .env && vite build --mode production",

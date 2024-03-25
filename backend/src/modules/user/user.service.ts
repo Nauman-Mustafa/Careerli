@@ -106,7 +106,7 @@ export class UserService extends BaseService {
     return this.userRepository.find().exec();
   }
 
-  async updateUserRole(userId: string, newRole: string): Promise<void> {
+  async updateUserRole(userId: string, roles: string): Promise<void> {
     await this.userRepository
       .updateOne({ _id: userId }, { roles: ["Free Member"] })
       .exec();

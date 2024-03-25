@@ -1,9 +1,3 @@
-import { Module } from "@nestjs/common";
-import { SchedulerService } from "./scheduler.service";
-import { SchedulerController } from "./scheduler.controller";
-
-@Module({
-  providers: [SchedulerService],
-  controllers: [SchedulerController],
-})
-export class UserModule {}
+export * from "./scheduler.module";
+export * from "./scheduler.controller";
+export * from "./scheduler.service";
