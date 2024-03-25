@@ -19,11 +19,15 @@ import { ResumeModule } from "./modules/resume";
 import { SubscriptionModule } from "./modules/subscription/subscription.module";
 import { ToolsModule } from "./modules/tools/tools.module";
 import { UserModule } from "./modules/user/user.module";
+import { ScheduleModule } from "@nestjs/schedule";
+import { TasksModule } from "./modules/TaskService/task.module";
 
 const envPath = join(__dirname, "..", ".env");
 require("dotenv").config({ path: envPath });
 @Module({
   imports: [
+    // The .forRoot() call initializes the scheduler and registers any declarative cron jobs, timeouts and intervals that exist within your app
+    ScheduleModule.forRoot(),
     StripeModule.forRoot({
       apiKey: process.env.STRIPE_SEC_KEY,
       apiVersion: "2022-08-01",
@@ -33,6 +37,7 @@ require("dotenv").config({ path: envPath });
     CoverLetterModule,
     DatabaseModule,
     UserModule,
+    TasksModule,
     ToolsModule,
     SubscriptionModule,
     ServeStaticModule.forRoot({
