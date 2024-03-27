@@ -42,7 +42,6 @@ const MyResume = () => {
   });
 
   useEffect(() => {
-    
     fetchConfig();
     const handleClickOutside = (event: any) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -56,13 +55,13 @@ const MyResume = () => {
       window.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  useEffect(()=>{fecthResume();},[pagination.page])
   useEffect(() => {
-    if(data){
-     
-      setResumeCount(prev => parseInt(prev) + parseInt(data?.length));
+    fecthResume();
+  }, [pagination.page]);
+  useEffect(() => {
+    if (data) {
+      setResumeCount((prev) => parseInt(prev) + parseInt(data?.length));
     }
-    
   }, [data]);
   useEffect(() => {
     setId(window.location.href.split("=")[1]);
@@ -113,15 +112,17 @@ const MyResume = () => {
     setPricesData(res?.data?.prices);
   };
   const fecthResume = async () => {
-    setLoader(true)
-    const res = await get(`resume/my-all-resume?page=${pagination.page}&limit=${pagination.limit}`);
+    setLoader(true);
+    const res = await get(
+      `resume/my-all-resume?page=${pagination.page}&limit=${pagination.limit}`
+    );
     setData(res?.data?.doc);
     setPagination({
       ...pagination,
       totalPages: res?.data?.totalPages,
       totalCount: res?.data?.totalCount,
     });
-    setLoader(false)
+    setLoader(false);
   };
   const deleteResume = async (id: any) => {
     const res = await deleteData(`resume/delete/${id}`);
@@ -141,12 +142,15 @@ const MyResume = () => {
   const downloadHandler = async (id: any) => {
     setLoader(true);
     const res = await get("resume/generate/" + id);
-    const link = document.createElement("a");
-    link.href = res["url"];
-    link.download = "MyResume.pdf";
-    link.click();
-    link.remove();
-    setLoader(false);
+    if ((res.StatusCode === 400) | 404 | 500) {
+      toast.error(res.message);
+    } else {
+      const link = document.createElement("a");
+      link.href = res["url"];
+      link.download = "MyResume.pdf";
+      link.click();
+      link.remove();
+    }
   };
   const changeTitle = (e: any, doc: any) => {
     e.stopPropagation();
@@ -210,7 +214,7 @@ const MyResume = () => {
   const handlePageChange = (page: any) => {
     setPagination({ ...pagination, page });
   };
- 
+
   return (
     <>
       <Header />
@@ -230,7 +234,7 @@ const MyResume = () => {
                   <h2>Welcome back,</h2>
                   <button
                     className="btn btn-yellow"
-                    onClick={(e) => handleSubmit("Template 1", "creative", e)}
+                    onClick={(e) => handleSubmit("Template 2", "creative", e)}
                   >
                     <Icon icon="akar-icons:circle-plus" />
                     <span>Create New Resume</span>
@@ -242,181 +246,183 @@ const MyResume = () => {
               </div>
             </div>
             {data?.map((item: any, i: any) => {
-             const count = i+1+5 * (pagination.page - 1);
-              return(
+              const count = i + 1 + 5 * (pagination.page - 1);
+              return (
                 <div className="col-lg-4" key={i} ref={dropdownRef}>
-                <div className="single-resume-box">
-                  <div className="resume-child">
-                    <div
-                      className="figure"
-                      onClick={() =>
-                        navigate(
-                          `/dashboard/${item?.templateCategory}?id=${item?._id}`
-                        )
-                      }
-                    >
-                      <img
-                        src={
-                          item?.resumeType === "Template 1"
-                            ? template1Img
-                            : item?.resumeType === "Template 2"
-                            ? template2Img
-                            : item?.resumeType === "Template 3"
-                            ? template7Img
-                            : item?.resumeType === "Template 4"
-                            ? template11Img
-                            : ""
+                  <div className="single-resume-box">
+                    <div className="resume-child">
+                      <div
+                        className="figure"
+                        onClick={() =>
+                          navigate(
+                            `/dashboard/${item?.templateCategory}?id=${item?._id}`
+                          )
                         }
-                        alt="image not found"
-                      />
-                    </div>
-                    <div className="resume-content-container">
-                      <div className="">
-                        {editName === i ? (
-                          <div
-                            className="edit-template-name"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                            }}
-                          >
-                            <input
-                              type="text"
-                              defaultValue={item?.resumeTitle}
-                              onChange={(e) => setSectionTitle(e.target.value)}
-                            />
-                            <button
-                              className={
-                                checkName
-                                  ? "btn-action btn-edit"
-                                  : "btn-action btn-edit d-none"
-                              }
-                              onClick={(e) => changeTitle(e, item?._id)}
-                            >
-                              <Icon icon="charm:circle-tick" />
-                            </button>
-                          </div>
-                        ) : (
-                          <h4>{item?.resumeTitle } {count}</h4>
-                          // <h4>{item?.resumeTitle +  count}</h4>
-                         
-                        )}
-
-                        <p>{dateFormate(item?.updatedAt)} </p>
+                      >
+                        <img
+                          src={
+                            item?.resumeType === "Template 1"
+                              ? template1Img
+                              : item?.resumeType === "Template 2"
+                              ? template2Img
+                              : item?.resumeType === "Template 3"
+                              ? template7Img
+                              : item?.resumeType === "Template 4"
+                              ? template11Img
+                              : ""
+                          }
+                          alt="image not found"
+                        />
                       </div>
-
-                      <div className="action-buttons">
-                        <button
-                          className="btn-action btn-edit"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(
-                              `/dashboard/${item?.templateCategory}?id=${item?._id}`
-                            );
-                          }}
-                        >
-                          <Icon icon="eva:edit-outline" />
-                        </button>
-                        <Dropdown
-                          align="end"
-                          show={isDDOpen && isDDOpenIndex === i}
-                          onToggle={() => {
-                            handleDDToggle(i);
-                          }}
-                          // onHide={() => handleDDClose()}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <Dropdown.Toggle
-                            id="dropdown-custom-components"
-                            className="btn-action btn-dropdown"
-                          >
-                            <Icon icon="ph:dots-three-outline-vertical" />
-                          </Dropdown.Toggle>
-
-                          <Dropdown.Menu>
-                            <button
-                              className="btn btn-linen"
+                      <div className="resume-content-container">
+                        <div className="">
+                          {editName === i ? (
+                            <div
+                              className="edit-template-name"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                downloadHandler(item?._id);
                               }}
                             >
-                              {Loader ? (
-                                <Spinner animation="border" />
-                              ) : (
-                                <>
-                                  <Icon icon="eva:download-fill" />
-                                  <span>Download</span>
-                                </>
-                              )}
-                            </button>
-                            <ul>
-                              <li>
-                                <Link
-                                  to={`/dashboard/customize-template?id=${item?._id}`}
-                                  className="dropdown-link"
-                                >
-                                  <Icon icon="ph:circles-four-bold" />
-                                  <span>Choose Template</span>
-                                </Link>
-                              </li>
-                              <li>
-                                <div
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setEditName(i);
-                                    setCheckName(true);
-                                    handleDDClose();
-                                  }}
-                                  className="dropdown-link"
-                                >
-                                  <Icon icon="mingcute:edit-3-line" />
-                                  <span>Rename</span>
-                                </div>
-                              </li>
-                              <li>
-                                <div
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    CreateResume(item);
-                                    handleDDClose();
-                                  }}
-                                  className="dropdown-link"
-                                >
-                                  <Icon icon="ph:copy" />
-                                  <span>Duplicate </span>
-                                </div>
-                              </li>
-                              <li>
-                                <div
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    deleteResume(item?._id);
-                                  }}
-                                  className="delete dropdown-link"
-                                >
-                                  <Icon icon="gg:trash" />
-                                  <span>Delete </span>
-                                </div>
-                              </li>
-                            </ul>
-                          </Dropdown.Menu>
-                        </Dropdown>
+                              <input
+                                type="text"
+                                defaultValue={item?.resumeTitle}
+                                onChange={(e) =>
+                                  setSectionTitle(e.target.value)
+                                }
+                              />
+                              <button
+                                className={
+                                  checkName
+                                    ? "btn-action btn-edit"
+                                    : "btn-action btn-edit d-none"
+                                }
+                                onClick={(e) => changeTitle(e, item?._id)}
+                              >
+                                <Icon icon="charm:circle-tick" />
+                              </button>
+                            </div>
+                          ) : (
+                            <h4>
+                              {item?.resumeTitle} {count}
+                            </h4>
+                            // <h4>{item?.resumeTitle +  count}</h4>
+                          )}
+
+                          <p>{dateFormate(item?.updatedAt)} </p>
+                        </div>
+
+                        <div className="action-buttons">
+                          <button
+                            className="btn-action btn-edit"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(
+                                `/dashboard/${item?.templateCategory}?id=${item?._id}`
+                              );
+                            }}
+                          >
+                            <Icon icon="eva:edit-outline" />
+                          </button>
+                          <Dropdown
+                            align="end"
+                            show={isDDOpen && isDDOpenIndex === i}
+                            onToggle={() => {
+                              handleDDToggle(i);
+                            }}
+                            // onHide={() => handleDDClose()}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Dropdown.Toggle
+                              id="dropdown-custom-components"
+                              className="btn-action btn-dropdown"
+                            >
+                              <Icon icon="ph:dots-three-outline-vertical" />
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                              <button
+                                className="btn btn-linen"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  downloadHandler(item?._id);
+                                }}
+                              >
+                                {Loader ? (
+                                  <Spinner animation="border" />
+                                ) : (
+                                  <>
+                                    <Icon icon="eva:download-fill" />
+                                    <span>Download</span>
+                                  </>
+                                )}
+                              </button>
+                              <ul>
+                                <li>
+                                  <Link
+                                    to={`/dashboard/customize-template?id=${item?._id}`}
+                                    className="dropdown-link"
+                                  >
+                                    <Icon icon="ph:circles-four-bold" />
+                                    <span>Choose Template</span>
+                                  </Link>
+                                </li>
+                                <li>
+                                  <div
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setEditName(i);
+                                      setCheckName(true);
+                                      handleDDClose();
+                                    }}
+                                    className="dropdown-link"
+                                  >
+                                    <Icon icon="mingcute:edit-3-line" />
+                                    <span>Rename</span>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      CreateResume(item);
+                                      handleDDClose();
+                                    }}
+                                    className="dropdown-link"
+                                  >
+                                    <Icon icon="ph:copy" />
+                                    <span>Duplicate </span>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      deleteResume(item?._id);
+                                    }}
+                                    className="delete dropdown-link"
+                                  >
+                                    <Icon icon="gg:trash" />
+                                    <span>Delete </span>
+                                  </div>
+                                </li>
+                              </ul>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              )
-             
-})}
+              );
+            })}
           </div>
         </div>
         <Pagination
-            currentPage={pagination.page}
-            totalPages={pagination.totalPages}
-            onPageChange={handlePageChange}
-            Loader={Loader}
-          />
+          currentPage={pagination.page}
+          totalPages={pagination.totalPages}
+          onPageChange={handlePageChange}
+          Loader={Loader}
+        />
         {/* <PaginationComp /> */}
       </main>
       <LoginModal showModal={modalShow} showModalHandler={setModalShow} />

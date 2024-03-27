@@ -29,13 +29,61 @@ export class AuthService {
     return null;
   }
 
+  // async login(user: any) {
+  //   // console.log("USER IS", user);
+
+  //   const userID = user._id;
+
+  //   const subscription = await this.subscriptionService.findUserSubscription(
+  //     userID
+  //   );
+  //   console.log("sub is", subscription);
+
+  //   // Adding count variable in payload
+  //   const payload = {
+  //     email: user.email,
+  //     userId: user._id,
+  //     count: user.count,
+  //     role: user.roles[0],
+  //     subscription: subscription,
+  //   };
+
+  //   return {
+  //     access_token: this.jwtService.sign(payload),
+  //     user,
+  //     subscription,
+  //   };
+  // }
   async login(user: any) {
-    const payload = { email: user.email, userId: user._id };
-    return {
-      access_token: this.jwtService.sign(payload),
-      user,
-    };
+    const userID = user._id;
+    // console.log("user is", user);
+
+    try {
+      // Wait for the promise to resolve
+      const subscription = await this.subscriptionService.findUserSubscription(
+        userID
+      );
+
+      // Adding count variable in payload
+      const payload = {
+        email: user.email,
+        userId: user._id,
+        count: user.count,
+        role: user.roles[0],
+        subscription: subscription,
+      };
+
+      return {
+        access_token: this.jwtService.sign(payload),
+        user,
+        subscription,
+      };
+    } catch (error) {
+      console.error("Error fetching subscription:", error);
+      throw error;
+    }
   }
+
   async googleAuth(req: any) {
     try {
       const googleDetails = req?.user;

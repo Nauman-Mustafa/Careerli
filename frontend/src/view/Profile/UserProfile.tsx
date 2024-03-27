@@ -9,7 +9,7 @@ import useFetch from "use-http";
 import * as yup from "yup";
 import { ValidationError } from "../../components/form/validation.component";
 import Header from "../../components/Header/Header";
-import { saveProfile } from "../../store/action";
+import { saveProfile, updateSessionStatus } from "../../store/action";
 import StripePaymentMethodForm from "../setting/StripePaymentMethodForm";
 import "./profileStyle.scss";
 const schema = yup.object().shape({
@@ -25,6 +25,7 @@ const UserProfile = () => {
   const [invoiceListRef, setinvoiceListRef] = useState([]);
   const [invoiceListLoad, setinvoiceListLoad] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [subscription, setSubscription] = useState<any>();
   const [card, setCard] = useState(false);
   const createIntentResponse = useRef(null);
   const [sErrors, setSErrors] = useState({});
@@ -35,7 +36,8 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const fetchConfig = async () => {
     const res = await get("subscription/stripe-config");
-
+    const subscriptionData = await get("subscription/subscription-data");
+    setSubscription(subscriptionData);
     setPricesData(res?.data?.prices);
     const resss = await get("subscription/subscription-lastDate");
     setPeriodEndDate(resss?.data?.endDate);
@@ -56,14 +58,15 @@ const UserProfile = () => {
   const initiateCancelation = () => {
     const CancelPlan = async () => {
       const res = await post("subscription/cancel-subscription");
-
-      toast.success(res?.message);
+      // console.log(res.data.cancel.cancel_at)
+      // dispatch(updateSessionStatus(false));
+      // toast.success(res?.message);
     };
     CancelPlan();
 
     setTimeout(() => {
       window.location.href = "/";
-    }, 2000);
+    }, 1000);
   };
   const handleModalClose = () => setModalShow(false);
   useEffect(() => {
@@ -78,6 +81,7 @@ const UserProfile = () => {
   useEffect(() => {
     fetchConfig();
   }, []);
+
   const creditData = [
     {
       totalCredit: "10,000",
@@ -116,6 +120,26 @@ const UserProfile = () => {
       amount: "$39",
     },
   ];
+
+  var timestamp = subscription?.data?.canceled_at * 1000;
+
+  // Create a new Date object using the timestamp
+  var date = new Date(timestamp);
+
+  // Extract day, month, and year components
+  var day = date.getDate();
+  var month = date.getMonth() + 1; // Month starts from 0, so add 1 to get the correct month
+  var year = date.getFullYear();
+
+  // Ensure that day and month are formatted with leading zeros if necessary
+  //@ts-ignore
+  day = day < 10 ? "0" + day : day;
+  //@ts-ignore
+  month = month < 10 ? "0" + month : month;
+
+  // Format the date as dd-mm-yyyy
+  var formattedDate = day + "-" + month + "-" + year;
+
   function epochToJsDate(ts: any): String {
     return new Date(ts * 1000).toLocaleDateString("en-us", {
       year: "numeric",
@@ -170,7 +194,6 @@ const UserProfile = () => {
 
     if (res.status === "success") {
       const res = await get("user/me");
-      // console.log(res, "resssssss");
       dispatch(saveProfile(res?.data));
       toast.success("Profile updated");
     } else {
@@ -323,7 +346,7 @@ const UserProfile = () => {
                   </div>
                 </Collapse>
               </div>
-              {billingSelector?.user?.stripe_checkout_session_status && (
+              {billingSelector?.user?.stripe_checkout_session_id && (
                 <div
                   className="profile-box"
                   style={card ? { display: "none" } : { display: "block" }}
@@ -389,7 +412,7 @@ const UserProfile = () => {
                   </div>
                 </div>
               </div> */}
-              {billingSelector?.user?.stripe_checkout_session_status && (
+              {billingSelector?.user?.stripe_checkout_session_id && (
                 <div className="profile-box delete-box">
                   <div className="box-header d-flex justify-content-between align-items-center">
                     <div className="header-left">
@@ -397,18 +420,31 @@ const UserProfile = () => {
                         <figure>
                           <Icon icon="ph:trash" />
                         </figure>
-                        <span>Cancel Plan</span>
+                        {subscription?.data?.canceled_at ? (
+                          <span>Plan Cancelled</span>
+                        ) : (
+                          <span>Cancel Plan</span>
+                        )}
                       </div>
-                      <p>
-                        Once you Cancel your Plan, it cannot be undone. This is
-                        permanent.
-                      </p>
+
+                      {!subscription?.data?.canceled_at ? (
+                        <p>
+                          Once you Cancel your Plan, it cannot be undone. This
+                          is permanent.
+                        </p>
+                      ) : (
+                        <p>you subscription is valid till {formattedDate}</p>
+                      )}
                     </div>
                     <div className="header-right">
                       <button
                         onClick={() => {
                           setModalShow(true);
                         }}
+                        //@ts-ignore
+                        disabled={
+                          subscription?.data?.canceled_at ? true : false
+                        }
                         className="btn btn-delete"
                       >
                         Cancel Plan{" "}
@@ -425,7 +461,7 @@ const UserProfile = () => {
               </div>
             </>
           ) : (
-            billingSelector?.user?.stripe_checkout_session_status && (
+            billingSelector?.user?.stripe_checkout_session_id && (
               <>
                 <div className="profile-box">
                   <div className="box-header d-flex justify-content-between">
@@ -433,7 +469,18 @@ const UserProfile = () => {
                       <div className="figure-icon">
                         <Icon icon="ph:repeat" />
                       </div>
-                      <h5>Subscription Renewal Date</h5>
+
+                      {subscription?.data?.canceled_at ? (
+                        <h5>Subscription End Date</h5>
+                      ) : (
+                        <h5>Subscription Renewal Date</h5>
+                      )}
+                      {!billingSelector?.user?.stripe_checkout_session_id ? (
+                        <h5>Subscription Renewal Date</h5>
+                      ) : (
+                        <h5>Subscription Expiry Date</h5>
+
+                      )}
                     </div>
                     <div className="header-right d-flex align-items-center">
                       <p>{epochToJsDate(periodEndDate)}.</p>

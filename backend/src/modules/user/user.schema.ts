@@ -15,6 +15,10 @@ export interface IUserDocument extends Document {
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date;
+  count: {
+    downloads: number;
+    lastResetDate: Date;
+  };
 }
 
 const UserSchema = new Schema(
@@ -29,6 +33,16 @@ const UserSchema = new Schema(
       type: String,
       required: true,
       unique: true,
+    },
+    count: {
+      downloads: {
+        type: Number,
+        default: 0,
+      },
+      lastResetDate: {
+        type: Date,
+        default: Date.now,
+      },
     },
 
     avatar: {

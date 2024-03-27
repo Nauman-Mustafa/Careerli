@@ -9,7 +9,7 @@ import {
   Post,
   Req,
   Res,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import * as bcrypt from "bcrypt";
@@ -45,6 +45,8 @@ export class AuthController {
   ) {
     try {
       const response = await this.authService.login(req.user);
+      // console.log("request is", req);
+
       return res.json({
         status: "success",
         message: "Successfully LoggedIn",
@@ -86,9 +88,12 @@ export class AuthController {
         // name: `${signupDto.firstName} ${signupDto.lastName}`,
       });
 
+      // change role on sign up from user to freeUser
+      // hamza kamran
       const createUser = await this.userService.create({
         ...signupDto,
-        roles: ["user"],
+        // roles: ["user"],
+        roles: ["Free Member"],
         emailVerified: true,
         password: bcrypt.hashSync(signupDto.password, jwtConstants.salt),
       });

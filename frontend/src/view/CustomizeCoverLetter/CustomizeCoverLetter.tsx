@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 import { useEffect, useMemo, useState } from "react";
 import { Nav } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useFetch from "use-http";
 import firstCover from "../../assets/images/firstCover.jpg";
 import secondCover from "../../assets/images/secondCoverImage.jpg";
@@ -13,6 +13,7 @@ import SecondLatestCoverLetter from "../../components/CreateCoverLetter/Comp/Sec
 import Header from "../../components/Header/Header";
 import { $coverLetter, $coverLetterStyle } from "../../services";
 import ResumeStyles from "./Components/ResumeStyles";
+import star from "../../assets/images/star.png";
 
 const resumeTemplate = [
   {
@@ -27,7 +28,9 @@ const resumeTemplate = [
   },
 ];
 
-const CustomizeCoverLetter = () => {
+const CustomizeCoverLetter = (userData) => {
+  const [searchParams] = useSearchParams();
+  const roleName = searchParams.get("id");
   const [activeTab, setActiveTab] = useState("Template");
   const [dashboardResume, setDashboardResume] = useState([...resumeTemplate]);
   const [selectedImg, setSelectedImg] = useState(secondCover);
@@ -142,8 +145,9 @@ const CustomizeCoverLetter = () => {
           </ul>
         </div>
         <div
-          className={`left-side ${activeTab === "Template" ? "" : "display-none"
-            }`}
+          className={`left-side ${
+            activeTab === "Template" ? "" : "display-none"
+          }`}
         >
           <div className="template-filters">
             <Nav defaultActiveKey="/all">
@@ -153,7 +157,7 @@ const CustomizeCoverLetter = () => {
                   filterResume("reset");
                 }}
               >
-                <Nav.Link href="/all" onClick={() => { }}>
+                <Nav.Link href="/all" onClick={() => {}}>
                   All
                 </Nav.Link>
               </Nav.Item>
@@ -176,14 +180,35 @@ const CustomizeCoverLetter = () => {
                 <div
                   className="col-6"
                   key={i}
-                  onClick={() => changeTemplate(item.name, item.imagePath)}
+                  // onClick={() => changeTemplate(item.name, item.imagePath)}
+                  onClick={
+                    item.category === "creative" &&
+                    (userData?.userData?.roles[0] == "Free Member" ||
+                      roleName === "guestUser")
+                      ? null
+                      : () => {
+                          changeTemplate(item.name, item.imagePath);
+                        }
+                  }
                 >
                   <div className="single-template-wrapper">
                     <div
-                      className={`single-template ${item?.name === selectedTemp ? "activeTemp" : ""
-                        }`}
+                      className={`single-template ${
+                        item?.name === selectedTemp ? "activeTemp" : ""
+                      }`}
                     >
                       <figure>
+                        {item.category === "creative" &&
+                        (userData?.userData?.roles[0] == "Free Member" ||
+                          roleName === "guestUser") ? (
+                          <img
+                            style={{ width: "25px", float: "right" }}
+                            src={star}
+                            alt=""
+                          />
+                        ) : (
+                          ""
+                        )}
                         <img src={item.imagePath} alt={item.name} />
                       </figure>
                       <div className="template-content">
@@ -197,8 +222,9 @@ const CustomizeCoverLetter = () => {
           </div>
         </div>
         <div
-          className={`middle-side ${activeTab === "Preview" ? "" : "display-none"
-            }`}
+          className={`middle-side ${
+            activeTab === "Preview" ? "" : "display-none"
+          }`}
         >
           <div
             onClick={() => navigate(-1)}
@@ -225,10 +251,11 @@ const CustomizeCoverLetter = () => {
           </div>
         </div>
         <div
-          className={`right-side ${activeTab === "Styling" ? "" : "display-none"
-            }`}
+          className={`right-side ${
+            activeTab === "Styling" ? "" : "display-none"
+          }`}
         >
-          <ResumeStyles />
+          <ResumeStyles userData={userData} />
         </div>
       </div>
     </div>

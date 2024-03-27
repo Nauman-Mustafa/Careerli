@@ -7,6 +7,8 @@ import Stripe from "stripe";
 import { BaseService } from "../shared/base.service";
 import { updatePaymentMethodDTO } from "./dto/subscription.dto";
 import { ISubscriptionSchema } from "./schema/subscription.schema";
+import { Product } from "src/interface";
+import { UserService } from "../user";
 
 /**
  *  FLOW OF THE MODULE
@@ -33,6 +35,7 @@ export class SubscriptionsService extends BaseService {
   constructor(
     @Inject(SUBSCRIPTION_REPOSITORY)
     protected subscriptionRepo: Model<ISubscriptionSchema>,
+    private readonly userService: UserService,
 
     @InjectStripe()
     private readonly stripeService: Stripe
@@ -49,17 +52,48 @@ export class SubscriptionsService extends BaseService {
    * Polling can be perform on the frontend, if you are changing meta-data of
    * the products too much
    */
+  // async getStripeConfig() {
+  //   try {
+  //     const prices = await this.stripeService.prices.list({
+  //       expand: ["data.product"],
+  //     });
+
+  //     const data = {
+  //       publishableKey: process.env.STRIPE_PUB_KEY,
+  //       prices: prices.data,
+  //     };
+
+  //     return generateResponse(
+  //       false,
+  //       HttpStatus.OK,
+  //       "Stripe Config Generated",
+  //       data
+  //     );
+  //   } catch (error) {
+  //     return generateResponse(
+  //       true,
+  //       HttpStatus.BAD_REQUEST,
+  //       "Could not get Stripe config",
+  //       error
+  //     );
+  //   }
+  // }
+
   async getStripeConfig() {
     try {
       const prices = await this.stripeService.prices.list({
         expand: ["data.product"],
       });
-
+      // console.log(prices);
+      const activePrices = prices.data.filter((price) => {
+        const product = price.product as Product; // Type assertion
+        return product && product.active; // Check if product is not null and active
+      });
+      // console.log(activePrices);
       const data = {
         publishableKey: process.env.STRIPE_PUB_KEY,
-        prices: prices.data,
+        prices: activePrices,
       };
-
       return generateResponse(
         false,
         HttpStatus.OK,
@@ -158,7 +192,7 @@ export class SubscriptionsService extends BaseService {
         userID,
       });
       console.log("Subscription:", subscription);
-  
+
       const session = await this.stripeService.checkout.sessions.create({
         mode: "subscription",
         line_items: [
@@ -172,14 +206,16 @@ export class SubscriptionsService extends BaseService {
         cancel_url: `${process.env.FRONTEND_BASE_URL}/stripe-failure/{CHECKOUT_SESSION_ID}`,
       });
       console.log("Stripe Session:", session);
-  
+
       await this.subscriptionRepo.findByIdAndUpdate(subscription._id, {
         stripe_checkout_session_id: session.id,
         curr_price_id: priceId,
       });
-  
+
+      // add logic to update user role from free member to paid member hereeeeee
+
       console.log("Checkout Session created successfully.");
-  
+
       return generateResponse(
         false,
         HttpStatus.ACCEPTED,
@@ -198,7 +234,7 @@ export class SubscriptionsService extends BaseService {
       );
     }
   }
-  
+
   /**
    *
    * @param userID Fetched from the header,
@@ -246,18 +282,26 @@ export class SubscriptionsService extends BaseService {
         }
       );
 
+      console.log("cancel sub is", cancel_subscription);
+
       const subscriptionRepo = await this.subscriptionRepo.findByIdAndUpdate(
         subscription._id,
         {
-          stripe_checkout_session_id: "",
-          stripe_checkout_session_status: false,
-          curr_price_id: "",
-          billing_table_details: [],
-          invoice_pdf: "",
-          payment_method: "",
-          payment_method_details: {},
+          // stripe_checkout_session_id: "",
+          // stripe_checkout_session_status: false,
+          // curr_price_id: "",
+          // billing_table_details: [],
+          // invoice_pdf: "",
+          // payment_method: "",
+          // payment_method_details: {},
+          canceled_at: cancel_subscription.current_period_end,
         }
       );
+
+      // const id: string = userID;
+
+      // const findUser = await this.userService.findByID(id);
+      // console.log("user is", findUser);
 
       return generateResponse(
         false,
@@ -700,6 +744,17 @@ export class SubscriptionsService extends BaseService {
         "Could not fetch user invoices",
         error
       );
+    }
+  }
+
+  // find user subscription
+  async findUserSubscription(
+    userID: string
+  ): Promise<ISubscriptionSchema | undefined> {
+    try {
+      return this.subscriptionRepo.findOne({ userID: userID });
+    } catch (error) {
+      console.log("error is", error);
     }
   }
 }

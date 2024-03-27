@@ -1,7 +1,7 @@
 // @ts-nocheck
 // @ts-ignore
 import { StatusCodes } from "http-status-codes";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   BrowserRouter,
@@ -34,16 +34,20 @@ import UpgradePlan from "../view/UpgradePlans";
 import StripeFailure from "../view/StripeFailure";
 
 export const MainRoutes = () => {
+  const [userData,setUserData]=useState()
   const auth: any = useSelector((store: any) => store.auth);
 
   const { response, get, loading, data: repos } = useFetch();
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log("auth is", auth);
+
     if (auth.access_token) fetchMe();
   }, []);
 
   const fetchMe = async () => {
     const res = await get("user/me");
+    setUserData(res?.data)
     const subscriptionData = await get("subscription/subscription-data");
 
     dispatch(getSubscriptionData(subscriptionData?.data));
@@ -76,11 +80,11 @@ export const MainRoutes = () => {
           />
           <Route
             path="/dashboard/:resume_type/customize-template"
-            element={<CustomizeTemplate />}
+            element={<CustomizeTemplate userData={userData}/>}
           />
           <Route
             path="/cover-letter/customize-cover-letter"
-            element={<CustomizeCoverLetter />}
+            element={<CustomizeCoverLetter userData={userData}/>}
           />
           <Route path="/cover-letter" element={<CoverLetter />} />
           <Route

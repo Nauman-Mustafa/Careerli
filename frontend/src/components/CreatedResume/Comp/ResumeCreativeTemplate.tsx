@@ -11,6 +11,7 @@ import {
   $sectionList,
   getDataFromLocalDB,
 } from "../../../services";
+import { svgIcons } from "../../../assets/svg/svgIcons";
 const ResumeCreativeTemplate = ({ data }: any) => {
   const [selectedTemp, setSelectedTemp] = useState<string>("");
   const { response, post, loading, get, put, request } = useFetch();

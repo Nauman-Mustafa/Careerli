@@ -16,13 +16,17 @@ import {
   updatePaymentMethodDTO,
 } from "./dto/subscription.dto";
 import { SubscriptionsService } from "./subscription.service";
+import { UserService } from "../user";
 
 @Controller("subscription")
 @ApiTags("Users /v1")
 // @ApiSecurity("JWT")
 @ApiBearerAuth()
 export class SubscriptionController {
-  constructor(private readonly subscriptionService: SubscriptionsService) {}
+  constructor(
+    private readonly subscriptionService: SubscriptionsService,
+    private readonly userService: UserService
+  ) {}
 
   @Post("stripe/webhook")
   async stripeWebhook(@Req() req, @Body() body: any, @Res() res) {
@@ -125,6 +129,8 @@ export class SubscriptionController {
   @Post("cancel-subscription")
   async cancelSubscription(@Req() req, @Res() res: Response) {
     const { userId } = req.user;
+    console.log("req user is", req.user);
+
     const response = await this.subscriptionService.cancelSubscription(userId);
     return res.status(response.code).json(response);
   }
@@ -142,6 +148,14 @@ export class SubscriptionController {
       checkout_session_id,
       userId
     );
+
+    const id: string = userId;
+    const data: any = {
+      roles: ["Paid Member"],
+    };
+
+    const updateUserRole = await this.userService.findByIdAndUpdate(id, data);
+
     return res.status(response.code).json(response);
   }
 
@@ -154,10 +168,11 @@ export class SubscriptionController {
   ) {
     const { userId } = req.user;
     const { checkout_session_id } = params;
-    const response = await this.subscriptionService.persistCheckoutSessionIDOnFailed(
-      checkout_session_id,
-      userId
-    );
+    const response =
+      await this.subscriptionService.persistCheckoutSessionIDOnFailed(
+        checkout_session_id,
+        userId
+      );
     return res.status(response.code).json(response);
   }
 }

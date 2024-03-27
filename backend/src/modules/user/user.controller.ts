@@ -13,7 +13,6 @@ import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { UserService } from "./user.service";
 
 @Controller("user")
-
 @UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -24,6 +23,8 @@ export class UserController {
    */
   @Get("me")
   async getProfile(@Req() req, @Res() res: Response) {
+    // console.log("user id is", req);
+
     const user = await this.userService
       .byEmail(req?.user?.email)
       .populate("interests");
@@ -32,7 +33,6 @@ export class UserController {
 
   @Post("update-profile")
   async updateProfile(@Req() req, @Res() res: Response, @Body() body: any) {
-    
     const user = await this.userService.byId(req?.user?.userId);
     if (!user) {
       return res.json({
