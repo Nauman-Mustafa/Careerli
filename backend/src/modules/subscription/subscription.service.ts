@@ -757,4 +757,15 @@ export class SubscriptionsService extends BaseService {
       console.log("error is", error);
     }
   }
+
+  async getSubscription(
+    userId: string
+  ): Promise<ISubscriptionSchema | undefined> {
+    // Implement logic to fetch subscription data for the user with the given userId
+    console.log("user id is", userId);
+
+    // Example: Assuming you have a subscriptions collection with a field 'userId'
+
+    return this.subscriptionRepo.findOne({ userId }).exec();
+  }
 }
